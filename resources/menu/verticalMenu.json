@@ -7,31 +7,22 @@
       "slug": "pages-home"
     },
     {
-      "url": "/page-2",
-      "icon": "menu-icon tf-icons bx bx-file",
-      "name": "Page 2",
+      "url": "user/list",
+      "icon": "menu-icon tf-icons bx bx-user",
+      "name": "User",
       "slug": "pages-page-2"
     },
     {
-      "url": "/pages/misc-error",
-      "name": "Error",
-      "icon": "menu-icon tf-icons bx bx-error",
-      "slug": "pages-misc-error",
-      "target": "_blank"
+      "url": "video/list",
+      "name": "My Videos",
+      "icon": "menu-icon tf-icons bx bx-video",
+      "slug": "pages-misc-error"
     },
     {
-      "url": "/auth/login-basic",
-      "name": "Login",
-      "icon": "menu-icon tf-icons bx bx-log-in",
-      "slug": "auth-login-basic",
-      "target": "_blank"
-    },
-    {
-      "url": "/auth/register-basic",
-      "name": "Register",
-      "icon": "menu-icon tf-icons bx bx-user",
-      "slug": "auth-register-basic",
-      "target": "_blank"
+      "url": "video/shared",
+      "name": "Shared Videos",
+      "icon": "menu-icon tf-icons bx bx-video",
+      "slug": "auth-login-basic"
     }
   ]
 }
