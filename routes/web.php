@@ -35,12 +35,14 @@ Route::get('/auth/login-basic', [LoginBasic::class, 'index'])->name('auth-login-
 Route::get('/auth/register-basic', [RegisterBasic::class, 'index'])->name('auth-register-basic');
 
 Route::get('login', [LoginController::class, 'login'])->name('login');
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('google/login', [GoogleAuthController::class, 'login'])->name('google-login');
 Route::get('google/callback', [GoogleAuthController::class, 'callback'])->name('google-callback');
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::prefix('user')->group(function(){
   Route::get('profile', [UserController::class, 'profile'])->name('user-profile');
   Route::get('editProfile', [UserController::class, 'editProfile'])->name('edit-user-profile');
+  Route::post('updateProfile', [UserController::class, 'updateProfile'])->name('update-user-profile');
   Route::get('list', [UserController::class, 'index'])->name('user-list');
 
 });
@@ -48,5 +50,4 @@ Route::prefix('user')->group(function(){
 Route::prefix('video')->group(function(){
   Route::get('list', [VideoController::class, 'myVideos'])->name('my-videos');
   Route::get('shared', [VideoController::class, 'sharedVideos'])->name('shared-videos');
-
 });

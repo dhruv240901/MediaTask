@@ -70,7 +70,7 @@ return [
     |
     */
 
-  'timezone' => 'UTC',
+  'timezone' => 'Asia/Kolkata',
 
   /*
     |--------------------------------------------------------------------------
@@ -169,6 +169,7 @@ return [
     App\Providers\EventServiceProvider::class,
     App\Providers\RouteServiceProvider::class,
     App\Providers\MenuServiceProvider::class,
+    Intervention\Image\ImageServiceProvider::class
   ])->toArray(),
 
   /*
@@ -185,6 +186,7 @@ return [
   'aliases' => Facade::defaultAliases()->merge([
     // 'Example' => App\Facades\Example::class,
     'Helper' => App\Helpers\Helpers::class,
+    // 'Image'  => Intervention\Image\Facades\Image::class
   ])->toArray(),
 
 ];

@@ -36,7 +36,7 @@
                 </div>
                 <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                     <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                        <img src="{{ auth()->user()->profile_image_url }}" alt="user image"
+                        <img src="{{ auth()->user()->profile_image }}" alt="user image"
                             class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
                     </div>
                     <div class="flex-grow-1 mt-3 mt-sm-5">
