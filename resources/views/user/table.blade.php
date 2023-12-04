@@ -39,6 +39,9 @@
               status:$('#UserStatus').val(),
               limit:$('#limit').val(),
               search_text:$('#search_input').val(),
+            },
+            success: function(data){
+              $('#userdetails').html(data)
             }
           })
       })
@@ -220,7 +223,7 @@
                                 aria-label="Actions">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="userdetails">
                       @include('user.list')
                     </tbody>
 

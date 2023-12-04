@@ -126,7 +126,7 @@ class UserController extends Controller
       $query->where('name','Like','%'.$request->search_text.'%')->orWhere('email','Like','%'.$request->search_text.'%')->orWhere('phone','Like','%'.$request->search_text.'%');
     }
 
-    $users=$query->paginate($perPage);
+    $users=$query->whereNot('id',auth()->id())->paginate($perPage);
     return view('user.list',compact('users'));
   }
   /* Render user profile page */
