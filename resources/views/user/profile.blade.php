@@ -57,7 +57,7 @@
                                     </li>
                                 </ul> --}}
                             </div>
-                            <a href="{{route('edit-user-profile')}}" class="btn btn-primary text-nowrap">
+                            <a href="{{route('user-edit',auth()->id())}}" class="btn btn-primary text-nowrap">
                                 <i class='bx bx-pencil'></i> Edit
                             </a>
                         </div>

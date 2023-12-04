@@ -24,6 +24,25 @@
 
 @section('page-script')
     {{-- <script src="{{asset('assets/js/app-user-list.js')}}"></script> --}}
+    <script>
+      $('.searchfield').change(function(){
+          // let gender=$('#gender').val()
+          // let status=$('#status').val()
+          // let limit=$('#limit').val()
+          // let search_input=$('#search_input').val()
+          $.ajax({
+            url:"{{ route('user-search') }}",
+            method:'POST',
+            data:{
+              _token:"{{ csrf_token() }}",
+              gender:$('#UserGender').val(),
+              status:$('#UserStatus').val(),
+              limit:$('#limit').val(),
+              search_text:$('#search_input').val(),
+            }
+          })
+      })
+    </script>
 @endsection
 
 @section('content')
@@ -128,18 +147,17 @@
         <div class="card-header border-bottom">
             <h5 class="card-title">User List</h5>
             <div class="d-flex align-items-center row py-3 gap-3 gap-md-0">
-                <div class="col-md-4 user_role"><select id="UserRole" class="form-select text-capitalize"
+                <div class="col-md-4 user_role"><select id="UserGender" class="form-select text-capitalize searchfield"
                         fdprocessedid="kqdji">
                         <option value=""> Select Gender </option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
                     </select></div>
-                <div class="col-md-4 user_status"><select id="FilterTransaction" class="form-select text-capitalize"
+                <div class="col-md-4 user_status"><select id="UserStatus" class="form-select text-capitalize searchfield"
                         fdprocessedid="kn2w4b">
                         <option value=""> Select Status </option>
-                        <option value="Pending" class="text-capitalize">Pending</option>
-                        <option value="Active" class="text-capitalize">Active</option>
-                        <option value="Inactive" class="text-capitalize">Inactive</option>
+                        <option value="1" class="text-capitalize">Active</option>
+                        <option value="0" class="text-capitalize">Inactive</option>
                     </select></div>
             </div>
         </div>
@@ -148,9 +166,9 @@
                 <div class="row mx-2">
                     <div class="col-md-2">
                         <div class="me-3">
-                            <div class="dataTables_length" id="DataTables_Table_0_length"><label><select
+                            <div class="dataTables_length" ><label><select
                                         name="DataTables_Table_0_length" aria-controls="DataTables_Table_0"
-                                        class="form-select" fdprocessedid="mtik4b">
+                                        class="form-select searchfield" fdprocessedid="mtik4b" id="limit">
                                         <option value="10">10</option>
                                         <option value="25">25</option>
                                         <option value="50">50</option>
@@ -162,8 +180,8 @@
                         <div
                             class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
                             <div id="DataTables_Table_0_filter" class="dataTables_filter"><label><input type="search"
-                                        class="form-control" placeholder="Search.."
-                                        aria-controls="DataTables_Table_0"></label></div>
+                                        class="form-control searchfield" placeholder="Search.."
+                                        aria-controls="DataTables_Table_0" id="search_input"></label></div>
                             {{-- <div class="dt-buttons btn-group flex-wrap">
                                 <div class="btn-group"><button
                                         class="btn buttons-collection dropdown-toggle btn-label-secondary mx-3"
@@ -186,371 +204,28 @@
                         <tr>
                             <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1"
                                 style="width: 0px; display: none;" aria-label=""></th>
-                            <th class="sorting sorting_asc" tabindex="0" aria-controls="DataTables_Table_0"
-                                rowspan="1" colspan="1" style="width: 400px;"
-                                aria-label="User: activate to sort column descending" aria-sort="ascending">User</th>
+                            <th class="sorting sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+                                colspan="1" style="width: 400px;" aria-label="User: activate to sort column descending"
+                                aria-sort="ascending">User</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                colspan="1" style="width: 224.5px;"
-                                aria-label="Role: activate to sort column ascending">Phone</th>
+                                colspan="1" style="width: 224.5px;" aria-label="Role: activate to sort column ascending">
+                                Phone</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                colspan="1" style="width: 224.5px;"
-                                aria-label="Plan: activate to sort column ascending">Gender</th>
+                                colspan="1" style="width: 224.5px;" aria-label="Plan: activate to sort column ascending">
+                                Gender</th>
                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
-                                colspan="1" style="width: 115px;"
-                                aria-label="Status: activate to sort column ascending">Status</th>
+                                colspan="1" style="width: 115px;" aria-label="Status: activate to sort column ascending">
+                                Status</th>
                             <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 144px;"
                                 aria-label="Actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="odd">
-                            <td class="  control" tabindex="0" style="display: none;"></td>
-                            <td class="sorting_1">
-                                <div class="d-flex justify-content-start align-items-center user-name">
-                                    <div class="avatar-wrapper">
-                                        <div class="avatar avatar-sm me-3"><span
-                                                class="avatar-initial rounded-circle bg-label-dark">BM</span></div>
-                                    </div>
-                                    <div class="d-flex flex-column"><a href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="text-body text-truncate"><span class="fw-medium">Brockie
-                                                Myles</span></a><small class="text-muted">bmylesg@amazon.com</small></div>
-                                </div>
-                            </td>
-                            <td><span class="text-truncate d-flex align-items-center"><span
-                                        class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2"><i
-                                            class="bx bx-pie-chart-alt bx-xs"></i></span>Maintainer</span></td>
-                            <td><span class="fw-medium">Basic</span></td>
-                            <td>Manual - Paypal</td>
-                            <td><span class="badge bg-label-success">Active</span></td>
-                            <td>
-                                <div class="d-inline-block text-nowrap"><button class="btn btn-sm btn-icon"
-                                        fdprocessedid="ldagvn"><i class="bx bx-edit"></i></button><button
-                                        class="btn btn-sm btn-icon delete-record" fdprocessedid="xkqos8"><i
-                                            class="bx bx-trash"></i></button><button
-                                        class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
-                                        fdprocessedid="lgpz3"><i class="bx bx-dots-vertical-rounded me-2"></i></button>
-                                    <div class="dropdown-menu dropdown-menu-end m-0"><a
-                                            href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="dropdown-item">View</a><a href="javascript:;"
-                                            class="dropdown-item">Suspend</a></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="even">
-                            <td class="  control" tabindex="0" style="display: none;"></td>
-                            <td class="sorting_1">
-                                <div class="d-flex justify-content-start align-items-center user-name">
-                                    <div class="avatar-wrapper">
-                                        <div class="avatar avatar-sm me-3"><img
-                                                src="http://127.0.0.1:8000/assets/img/avatars/1.png" alt="Avatar"
-                                                class="rounded-circle"></div>
-                                    </div>
-                                    <div class="d-flex flex-column"><a href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="text-body text-truncate"><span class="fw-medium">Gwendolyn
-                                                Meineken</span></a><small class="text-muted">gmeinekenu@hc360.com</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><span class="text-truncate d-flex align-items-center"><span
-                                        class="badge badge-center rounded-pill bg-label-secondary w-px-30 h-px-30 me-2"><i
-                                            class="bx bx-mobile-alt bx-xs"></i></span>Admin</span></td>
-                            <td><span class="fw-medium">Basic</span></td>
-                            <td>Manual - Cash</td>
-                            <td><span class="badge bg-label-warning">Pending</span></td>
-                            <td>
-                                <div class="d-inline-block text-nowrap"><button class="btn btn-sm btn-icon"
-                                        fdprocessedid="zoyyqf"><i class="bx bx-edit"></i></button><button
-                                        class="btn btn-sm btn-icon delete-record" fdprocessedid="sfmtk"><i
-                                            class="bx bx-trash"></i></button><button
-                                        class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
-                                        fdprocessedid="kikej9"><i class="bx bx-dots-vertical-rounded me-2"></i></button>
-                                    <div class="dropdown-menu dropdown-menu-end m-0"><a
-                                            href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="dropdown-item">View</a><a href="javascript:;"
-                                            class="dropdown-item">Suspend</a></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="odd">
-                            <td class="  control" tabindex="0" style="display: none;"></td>
-                            <td class="sorting_1">
-                                <div class="d-flex justify-content-start align-items-center user-name">
-                                    <div class="avatar-wrapper">
-                                        <div class="avatar avatar-sm me-3"><img
-                                                src="http://127.0.0.1:8000/assets/img/avatars/4.png" alt="Avatar"
-                                                class="rounded-circle"></div>
-                                    </div>
-                                    <div class="d-flex flex-column"><a href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="text-body text-truncate"><span class="fw-medium">Hugh
-                                                Hasson</span></a><small class="text-muted">hhassonp@bizjournals.com</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><span class="text-truncate d-flex align-items-center"><span
-                                        class="badge badge-center rounded-pill bg-label-secondary w-px-30 h-px-30 me-2"><i
-                                            class="bx bx-mobile-alt bx-xs"></i></span>Admin</span></td>
-                            <td><span class="fw-medium">Basic</span></td>
-                            <td>Manual - Cash</td>
-                            <td><span class="badge bg-label-secondary">Inactive</span></td>
-                            <td>
-                                <div class="d-inline-block text-nowrap"><button class="btn btn-sm btn-icon"
-                                        fdprocessedid="ikt2vo"><i class="bx bx-edit"></i></button><button
-                                        class="btn btn-sm btn-icon delete-record" fdprocessedid="p5j7tf"><i
-                                            class="bx bx-trash"></i></button><button
-                                        class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
-                                        fdprocessedid="7kdqs8"><i class="bx bx-dots-vertical-rounded me-2"></i></button>
-                                    <div class="dropdown-menu dropdown-menu-end m-0"><a
-                                            href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="dropdown-item">View</a><a href="javascript:;"
-                                            class="dropdown-item">Suspend</a></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="even">
-                            <td class="  control" tabindex="0" style="display: none;"></td>
-                            <td class="sorting_1">
-                                <div class="d-flex justify-content-start align-items-center user-name">
-                                    <div class="avatar-wrapper">
-                                        <div class="avatar avatar-sm me-3"><img
-                                                src="http://127.0.0.1:8000/assets/img/avatars/3.png" alt="Avatar"
-                                                class="rounded-circle"></div>
-                                    </div>
-                                    <div class="d-flex flex-column"><a href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="text-body text-truncate"><span class="fw-medium">Kare
-                                                Skitterel</span></a><small
-                                            class="text-muted">kskitterelm@washingtonpost.com</small></div>
-                                </div>
-                            </td>
-                            <td><span class="text-truncate d-flex align-items-center"><span
-                                        class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2"><i
-                                            class="bx bx-pie-chart-alt bx-xs"></i></span>Maintainer</span></td>
-                            <td><span class="fw-medium">Basic</span></td>
-                            <td>Manual - Paypal</td>
-                            <td><span class="badge bg-label-warning">Pending</span></td>
-                            <td>
-                                <div class="d-inline-block text-nowrap"><button class="btn btn-sm btn-icon"
-                                        fdprocessedid="9i9ywc"><i class="bx bx-edit"></i></button><button
-                                        class="btn btn-sm btn-icon delete-record" fdprocessedid="cgmq4m"><i
-                                            class="bx bx-trash"></i></button><button
-                                        class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
-                                        fdprocessedid="n03zr9"><i class="bx bx-dots-vertical-rounded me-2"></i></button>
-                                    <div class="dropdown-menu dropdown-menu-end m-0"><a
-                                            href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="dropdown-item">View</a><a href="javascript:;"
-                                            class="dropdown-item">Suspend</a></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="odd">
-                            <td class="  control" tabindex="0" style="display: none;"></td>
-                            <td class="sorting_1">
-                                <div class="d-flex justify-content-start align-items-center user-name">
-                                    <div class="avatar-wrapper">
-                                        <div class="avatar avatar-sm me-3"><img
-                                                src="http://127.0.0.1:8000/assets/img/avatars/1.png" alt="Avatar"
-                                                class="rounded-circle"></div>
-                                    </div>
-                                    <div class="d-flex flex-column"><a href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="text-body text-truncate"><span class="fw-medium">Karena
-                                                Courtliff</span></a><small
-                                            class="text-muted">kcourtliff1a@bbc.co.uk</small></div>
-                                </div>
-                            </td>
-                            <td><span class="text-truncate d-flex align-items-center"><span
-                                        class="badge badge-center rounded-pill bg-label-secondary w-px-30 h-px-30 me-2"><i
-                                            class="bx bx-mobile-alt bx-xs"></i></span>Admin</span></td>
-                            <td><span class="fw-medium">Basic</span></td>
-                            <td>Manual - Paypal</td>
-                            <td><span class="badge bg-label-success">Active</span></td>
-                            <td>
-                                <div class="d-inline-block text-nowrap"><button class="btn btn-sm btn-icon"
-                                        fdprocessedid="hvvdr"><i class="bx bx-edit"></i></button><button
-                                        class="btn btn-sm btn-icon delete-record" fdprocessedid="nz34jl"><i
-                                            class="bx bx-trash"></i></button><button
-                                        class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
-                                        fdprocessedid="n9wdp9"><i class="bx bx-dots-vertical-rounded me-2"></i></button>
-                                    <div class="dropdown-menu dropdown-menu-end m-0"><a
-                                            href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="dropdown-item">View</a><a href="javascript:;"
-                                            class="dropdown-item">Suspend</a></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="even">
-                            <td class="  control" tabindex="0" style="display: none;"></td>
-                            <td class="sorting_1">
-                                <div class="d-flex justify-content-start align-items-center user-name">
-                                    <div class="avatar-wrapper">
-                                        <div class="avatar avatar-sm me-3"><span
-                                                class="avatar-initial rounded-circle bg-label-warning">MM</span></div>
-                                    </div>
-                                    <div class="d-flex flex-column"><a href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="text-body text-truncate"><span class="fw-medium">Micaela
-                                                McNirlan</span></a><small class="text-muted">mmcnirlan16@hc360.com</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><span class="text-truncate d-flex align-items-center"><span
-                                        class="badge badge-center rounded-pill bg-label-secondary w-px-30 h-px-30 me-2"><i
-                                            class="bx bx-mobile-alt bx-xs"></i></span>Admin</span></td>
-                            <td><span class="fw-medium">Basic</span></td>
-                            <td>Manual - Credit Card</td>
-                            <td><span class="badge bg-label-secondary">Inactive</span></td>
-                            <td>
-                                <div class="d-inline-block text-nowrap"><button class="btn btn-sm btn-icon"
-                                        fdprocessedid="yhxlql"><i class="bx bx-edit"></i></button><button
-                                        class="btn btn-sm btn-icon delete-record" fdprocessedid="lagzp"><i
-                                            class="bx bx-trash"></i></button><button
-                                        class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
-                                        fdprocessedid="a5idc"><i class="bx bx-dots-vertical-rounded me-2"></i></button>
-                                    <div class="dropdown-menu dropdown-menu-end m-0"><a
-                                            href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="dropdown-item">View</a><a href="javascript:;"
-                                            class="dropdown-item">Suspend</a></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="odd">
-                            <td class="  control" tabindex="0" style="display: none;"></td>
-                            <td class="sorting_1">
-                                <div class="d-flex justify-content-start align-items-center user-name">
-                                    <div class="avatar-wrapper">
-                                        <div class="avatar avatar-sm me-3"><span
-                                                class="avatar-initial rounded-circle bg-label-dark">OW</span></div>
-                                    </div>
-                                    <div class="d-flex flex-column"><a href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="text-body text-truncate"><span class="fw-medium">Onfre
-                                                Wind</span></a><small class="text-muted">owind1b@yandex.ru</small></div>
-                                </div>
-                            </td>
-                            <td><span class="text-truncate d-flex align-items-center"><span
-                                        class="badge badge-center rounded-pill bg-label-secondary w-px-30 h-px-30 me-2"><i
-                                            class="bx bx-mobile-alt bx-xs"></i></span>Admin</span></td>
-                            <td><span class="fw-medium">Basic</span></td>
-                            <td>Manual - Paypal</td>
-                            <td><span class="badge bg-label-warning">Pending</span></td>
-                            <td>
-                                <div class="d-inline-block text-nowrap"><button class="btn btn-sm btn-icon"
-                                        fdprocessedid="vdaykh"><i class="bx bx-edit"></i></button><button
-                                        class="btn btn-sm btn-icon delete-record" fdprocessedid="spoo38"><i
-                                            class="bx bx-trash"></i></button><button
-                                        class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
-                                        fdprocessedid="md5qdf"><i class="bx bx-dots-vertical-rounded me-2"></i></button>
-                                    <div class="dropdown-menu dropdown-menu-end m-0"><a
-                                            href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="dropdown-item">View</a><a href="javascript:;"
-                                            class="dropdown-item">Suspend</a></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="even">
-                            <td class="  control" tabindex="0" style="display: none;"></td>
-                            <td class="sorting_1">
-                                <div class="d-flex justify-content-start align-items-center user-name">
-                                    <div class="avatar-wrapper">
-                                        <div class="avatar avatar-sm me-3"><img
-                                                src="http://127.0.0.1:8000/assets/img/avatars/5.png" alt="Avatar"
-                                                class="rounded-circle"></div>
-                                    </div>
-                                    <div class="d-flex flex-column"><a href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="text-body text-truncate"><span class="fw-medium">Rafaellle
-                                                Snowball</span></a><small
-                                            class="text-muted">rsnowballv@indiegogo.com</small></div>
-                                </div>
-                            </td>
-                            <td><span class="text-truncate d-flex align-items-center"><span
-                                        class="badge badge-center rounded-pill bg-label-info w-px-30 h-px-30 me-2"><i
-                                            class="bx bx-edit bx-xs"></i></span>Editor</span></td>
-                            <td><span class="fw-medium">Basic</span></td>
-                            <td>Manual - Paypal</td>
-                            <td><span class="badge bg-label-warning">Pending</span></td>
-                            <td>
-                                <div class="d-inline-block text-nowrap"><button class="btn btn-sm btn-icon"
-                                        fdprocessedid="wq0k7g"><i class="bx bx-edit"></i></button><button
-                                        class="btn btn-sm btn-icon delete-record" fdprocessedid="bblhhs"><i
-                                            class="bx bx-trash"></i></button><button
-                                        class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
-                                        fdprocessedid="j4oz98"><i class="bx bx-dots-vertical-rounded me-2"></i></button>
-                                    <div class="dropdown-menu dropdown-menu-end m-0"><a
-                                            href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="dropdown-item">View</a><a href="javascript:;"
-                                            class="dropdown-item">Suspend</a></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="odd">
-                            <td class="  control" tabindex="0" style="display: none;"></td>
-                            <td class="sorting_1">
-                                <div class="d-flex justify-content-start align-items-center user-name">
-                                    <div class="avatar-wrapper">
-                                        <div class="avatar avatar-sm me-3"><img
-                                                src="http://127.0.0.1:8000/assets/img/avatars/8.png" alt="Avatar"
-                                                class="rounded-circle"></div>
-                                    </div>
-                                    <div class="d-flex flex-column"><a href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="text-body text-truncate"><span class="fw-medium">Rochette
-                                                Emer</span></a><small class="text-muted">remerw@blogtalkradio.com</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><span class="text-truncate d-flex align-items-center"><span
-                                        class="badge badge-center rounded-pill bg-label-secondary w-px-30 h-px-30 me-2"><i
-                                            class="bx bx-mobile-alt bx-xs"></i></span>Admin</span></td>
-                            <td><span class="fw-medium">Basic</span></td>
-                            <td>Auto Debit</td>
-                            <td><span class="badge bg-label-success">Active</span></td>
-                            <td>
-                                <div class="d-inline-block text-nowrap"><button class="btn btn-sm btn-icon"
-                                        fdprocessedid="5qbmgs"><i class="bx bx-edit"></i></button><button
-                                        class="btn btn-sm btn-icon delete-record" fdprocessedid="31j0ce8"><i
-                                            class="bx bx-trash"></i></button><button
-                                        class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
-                                        fdprocessedid="mbnbq"><i class="bx bx-dots-vertical-rounded me-2"></i></button>
-                                    <div class="dropdown-menu dropdown-menu-end m-0"><a
-                                            href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="dropdown-item">View</a><a href="javascript:;"
-                                            class="dropdown-item">Suspend</a></div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="even">
-                            <td class="  control" tabindex="0" style="display: none;"></td>
-                            <td class="sorting_1">
-                                <div class="d-flex justify-content-start align-items-center user-name">
-                                    <div class="avatar-wrapper">
-                                        <div class="avatar avatar-sm me-3"><img
-                                                src="http://127.0.0.1:8000/assets/img/avatars/1.png" alt="Avatar"
-                                                class="rounded-circle"></div>
-                                    </div>
-                                    <div class="d-flex flex-column"><a href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="text-body text-truncate"><span class="fw-medium">Stu
-                                                Delamaine</span></a><small class="text-muted">sdelamainek@who.int</small>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><span class="text-truncate d-flex align-items-center"><span
-                                        class="badge badge-center rounded-pill bg-label-success w-px-30 h-px-30 me-2"><i
-                                            class="bx bx-cog bx-xs"></i></span>Author</span></td>
-                            <td><span class="fw-medium">Basic</span></td>
-                            <td>Auto Debit</td>
-                            <td><span class="badge bg-label-warning">Pending</span></td>
-                            <td>
-                                <div class="d-inline-block text-nowrap"><button class="btn btn-sm btn-icon"
-                                        fdprocessedid="nzzjci"><i class="bx bx-edit"></i></button><button
-                                        class="btn btn-sm btn-icon delete-record" fdprocessedid="vy0zo"><i
-                                            class="bx bx-trash"></i></button><button
-                                        class="btn btn-sm btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"
-                                        fdprocessedid="g7sjvp"><i class="bx bx-dots-vertical-rounded me-2"></i></button>
-                                    <div class="dropdown-menu dropdown-menu-end m-0"><a
-                                            href="http://127.0.0.1:8000/app/user/view/account"
-                                            class="dropdown-item">View</a><a href="javascript:;"
-                                            class="dropdown-item">Suspend</a></div>
-                                </div>
-                            </td>
-                        </tr>
+                      @include('user.list')
                     </tbody>
+
                 </table>
-                <div class="row mx-2">
+                {{-- <div class="row mx-2">
                     <div class="col-sm-12 col-md-6">
                         <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">
                             Showing 1 to 10 of 11 entries (filtered from 50 total entries)</div>
@@ -560,7 +235,8 @@
                             <ul class="pagination">
                                 <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
                                     <a aria-controls="DataTables_Table_0" aria-disabled="true" aria-role="link"
-                                        data-dt-idx="previous" tabindex="0" class="page-link">Previous</a></li>
+                                        data-dt-idx="previous" tabindex="0" class="page-link">Previous</a>
+                                </li>
                                 <li class="paginate_button page-item active"><a href="#"
                                         aria-controls="DataTables_Table_0" aria-role="link" aria-current="page"
                                         data-dt-idx="0" tabindex="0" class="page-link">1</a></li>
@@ -573,7 +249,7 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
         <!-- Offcanvas to add new user -->

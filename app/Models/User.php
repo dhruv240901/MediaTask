@@ -8,18 +8,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 class User extends Authenticatable
 {
-  use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+  use HasApiTokens, HasFactory, Notifiable;
 
   /**
    * The attributes that are mass assignable.
    *
    * @var array<int, string>
    */
-  protected $fillable = ['name', 'email', 'phone', 'gender', 'profile_image', 'social_id', 'social_type', 'is_active', 'created_by', 'updated_by', 'deleted_by'];
+  protected $fillable = ['name', 'email', 'phone', 'gender', 'profile_image', 'social_id', 'social_type', 'is_active', 'created_by', 'updated_by'];
 
   /**
    * The attributes that should be hidden for serialization.
@@ -57,15 +55,5 @@ class User extends Authenticatable
       $model->updated_by = auth()->id();
     });
 
-    static::deleting(function ($model) {
-      $model->is_deleted = true;
-      $model->deleted_by = auth()->id();
-      $model->save();
-    });
-
-    static::restoring(function ($model) {
-      $model->is_deleted = false;
-      $model->deleted_by = null;
-    });
   }
 }

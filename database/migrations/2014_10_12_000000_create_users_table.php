@@ -16,17 +16,14 @@ return new class extends Migration
       $table->string('name', 51);
       $table->string('email')->unique();
       $table->string('phone', 10)->nullable();
-      $table->enum('gender', ['Male', 'Female'])->nullable();
+      $table->enum('gender', ['male', 'female'])->nullable();
       $table->boolean('is_active')->default(1)->comment('0:Blocked,1:Active');
       $table->string('profile_image')->nullable();
       $table->string('social_id');
       $table->string('social_type');
       $table->uuid('created_by')->nullable();
       $table->uuid('updated_by')->nullable();
-      $table->uuid('deleted_by')->nullable();
       $table->timestamps();
-      $table->softDeletes();
-      $table->boolean('is_deleted')->default(0)->comment('0:No,1:Yes');
     });
   }
 
