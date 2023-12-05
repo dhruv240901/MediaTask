@@ -51,9 +51,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('delete/{id}', [UserController::class, 'destroy'])->name('user-delete');
   });
 
-  // Video Routes 
+  // Video Routes
   Route::prefix('video')->group(function () {
     Route::get('list', [VideoController::class, 'myVideos'])->name('my-videos');
+    Route::get('create', [VideoController::class, 'create'])->name('add-videos');
+    Route::post('store', [VideoController::class, 'store'])->name('store-videos');
     Route::get('shared', [VideoController::class, 'sharedVideos'])->name('shared-videos');
   });
 });

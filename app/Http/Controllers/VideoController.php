@@ -11,6 +11,17 @@ class VideoController extends Controller
     {
         return view('videos.list');
     }
+    /* function to render add video form */
+    public function create()
+    {
+        return view('videos.addEdit');
+    }
+
+    /* function to store video in database */
+    public function store(Request $request)
+    {
+        dd($request->all());
+    }
 
      /* Render shared videos mage */
     public function sharedVideos()

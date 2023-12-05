@@ -37,17 +37,6 @@
       addRemoveLinks: true,
       maxFiles: 1
     });
-  }
-
-  // Multiple Dropzone
-  // --------------------------------------------------------------------
-  const dropzoneMulti = document.querySelector('#dropzone-multi');
-  if (dropzoneMulti) {
-    const myDropzoneMulti = new Dropzone(dropzoneMulti, {
-      previewTemplate: previewTemplate,
-      parallelUploads: 1,
-      maxFilesize: 5,
-      addRemoveLinks: true
-    });
+    console.log('myDropzone', myDropzone);
   }
 })();
