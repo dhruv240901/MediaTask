@@ -15,7 +15,7 @@
     <td><span class="text-truncate d-flex align-items-center">{{ $user->phone }}</></td>
     <td><span class="fw-medium">{{ $user->gender }}</span></td>
     <td><label class="switch">
-      <input type="checkbox" class="switch-input" checked>
+      <input type="checkbox" class="switch-input user-status" data-id="{{ $user->id }}" @if ($user->is_active==true) checked @endif>
       <span class="switch-toggle-slider">
         <span class="switch-on"></span>
         <span class="switch-off"></span>
@@ -34,4 +34,4 @@
     </td>
 </tr>
 @endforeach
-{{ $users->links() }}
+{!! $users->links() !!}

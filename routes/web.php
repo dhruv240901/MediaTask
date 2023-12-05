@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\pages\HomePage;
 use App\Http\Controllers\pages\Page2;
 use App\Http\Controllers\pages\MiscError;
 use App\Http\Controllers\authentications\LoginBasic;
@@ -38,18 +37,23 @@ Route::get('login', [LoginController::class, 'login'])->name('login');
 Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('google/login', [GoogleAuthController::class, 'login'])->name('google-login');
 Route::get('google/callback', [GoogleAuthController::class, 'callback'])->name('google-callback');
-Route::get('/', [HomeController::class, 'index'])->name('index');
 
-Route::prefix('user')->group(function () {
-  Route::get('profile', [UserController::class, 'profile'])->name('user-profile');
-  Route::get('list', [UserController::class, 'index'])->name('user-list');
-  Route::get('edit/{id}', [UserController::class, 'edit'])->name('user-edit');
-  Route::put('update/{id}', [UserController::class, 'update'])->name('user-update');
-  Route::delete('delete/{id}', [UserController::class, 'destroy'])->name('user-delete');
-  Route::post('search', [UserController::class, 'searchUser'])->name('user-search');
-});
+Route::middleware('auth')->group(function () {
+  Route::get('/', [HomeController::class, 'index'])->name('index');
 
-Route::prefix('video')->group(function () {
-  Route::get('list', [VideoController::class, 'myVideos'])->name('my-videos');
-  Route::get('shared', [VideoController::class, 'sharedVideos'])->name('shared-videos');
+  // User Routes
+  Route::prefix('user')->group(function () {
+    Route::get('profile', [UserController::class, 'profile'])->name('user-profile');
+    Route::get('list', [UserController::class, 'index'])->name('user-list');
+    Route::get('edit/{id}', [UserController::class, 'edit'])->name('user-edit');
+    Route::put('update/{id}', [UserController::class, 'update'])->name('user-update');
+    Route::post('updateStatus', [UserController::class, 'updateStatus'])->name('update-user-status');
+    Route::delete('delete/{id}', [UserController::class, 'destroy'])->name('user-delete');
+  });
+
+  // Video Routes 
+  Route::prefix('video')->group(function () {
+    Route::get('list', [VideoController::class, 'myVideos'])->name('my-videos');
+    Route::get('shared', [VideoController::class, 'sharedVideos'])->name('shared-videos');
+  });
 });

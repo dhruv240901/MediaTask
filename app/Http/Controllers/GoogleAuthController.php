@@ -34,7 +34,7 @@ class GoogleAuthController extends Controller
         ]);
       } else {
 
-        // Update user name and profile image if user has updated in google account
+        // TODO: Update user name and profile image if user has updated in google account
         // if($checkUser->name!=$user->name || $checkUser->profile_image!=$user->avatar)
         // {
         //   $updateData['name']=$user->name;
