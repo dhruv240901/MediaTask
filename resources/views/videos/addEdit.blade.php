@@ -21,13 +21,16 @@
 
     <div class="row">
         <!-- Basic  -->
-        {{-- <form action="{{ route('store-videos') }}" method="POST" enctype="multipart/form-data"> --}}
-        <div class="my-2">
-            <label for="defaultFormControlInput" class="form-label">Name</label>
-            <input type="text" class="form-control" id="defaultFormControlInput" placeholder="John Doe"
-                aria-describedby="defaultFormControlHelp">
-        </div>
-        <div class="col-12 my-3">
+        {{-- <form action="{{ route('store-videos') }}" method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Name</label>
+            <input type="text" class="form-control" id="exampleFormControlInput1" name="name"/>
+          </div>
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Select Video</label>
+          <input class="form-control" type="file" id="formFile" accept="image/*" name="profile_img">
+        </div> --}}
+        {{-- <div class="col-12 my-3">
             <div class="card mb-4">
                 <h5 class="card-header">Upload Video</h5>
                 <div class="card-body">
@@ -46,8 +49,37 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <!-- /Basic  -->
-        {{-- </form> --}}
+        <div class="col-md-6 mx-auto">
+          <div class="card mb-4">
+            <h5 class="card-header">{{ isset($video)&&$video!=null ? 'Edit' : 'Add' }} Video</h5>
+            <div class="card-body">
+              <form action="{{ isset($video)&&$video!=null ? route('update-video',$video->id) : route('store-videos') }}" method="POST" enctype="multipart/form-data" id="editProfile">
+                @if(isset($video) && $video!=null)
+                  @method('PUT')
+                @endif
+                @csrf
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Name</label>
+                <input type="text" class="form-control" id="exampleFormControlInput1" name="name" value="{{ $video->name ?? old('name') }}"/>
+              </div>
+              <div class="mb-3">
+                <label for="formFile" class="form-label">Select Video</label>
+                <input class="form-control" type="file" id="formFile" accept="video/*" name="video">
+              </div>
+              <div class="mb-3">
+              @if(isset($video) && $video!=null)
+               <img src="{{asset('user/' . auth()->id() . '/media/' . $video->id . '/thumbnail/'. $video->file_name.'.jpg')}}" width="100px" height="100px">
+               @endif
+              </div>
+              <div class="pt-4">
+                <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+                <a href="{{ route('my-videos') }}" class="btn btn-label-secondary">Cancel</a>
+              </div>
+              </form>
+            </div>
+          </div>
+        </div>
     </div>
 @endsection

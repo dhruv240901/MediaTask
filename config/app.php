@@ -169,7 +169,8 @@ return [
     App\Providers\EventServiceProvider::class,
     App\Providers\RouteServiceProvider::class,
     App\Providers\MenuServiceProvider::class,
-    Intervention\Image\ImageServiceProvider::class
+    Intervention\Image\ImageServiceProvider::class,
+    Pawlox\VideoThumbnail\VideoThumbnailServiceProvider::class
   ])->toArray(),
 
   /*
