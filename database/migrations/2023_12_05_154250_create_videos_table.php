@@ -15,6 +15,7 @@ return new class extends Migration
           $table->uuid('id')->primary();
           $table->string('name', 51);
           $table->string('file_url')->nullable();
+          $table->string('file_name')->nullable();
           $table->string('slug')->nullable();
           $table->boolean('is_active')->default(1)->comment('0:Blocked,1:Active');
           $table->uuid('created_by')->nullable();
