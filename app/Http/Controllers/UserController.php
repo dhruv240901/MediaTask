@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Traits\AjaxResponse;
+use App\Traits\FileUpload;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
-  use AjaxResponse;
+  use AjaxResponse,FileUpload;
 
   /* function to render users list table */
   public function index(Request $request)
@@ -86,38 +86,14 @@ class UserController extends Controller
 
     // Check if user had upload file or not
     if ($request->hasfile('profile_img')) {
-      if (file_exists('user/' . $user->id . '/profile')) {
-        unlink('user/' . $user->id . '/profile');
-      }
       $file = $request->file('profile_img');
-
-      // Create thumbnail of image
-      $thumbnail = Image::make($file)->resize(200, 200, function ($constraint) {
-        $constraint->aspectRatio();
-      });
-
-      $name      = $file->getClientOriginalName();
-      $filename  = pathinfo($name, PATHINFO_FILENAME);
-      $extension = pathinfo($name, PATHINFO_EXTENSION);
-      $date      = date('dmYhisa', time());
-      $filename  = ($date . '_' . $filename . '.' . $extension);
-
-      // Move the original file to the user's directory
-      $file->move('user/' . $user->id . '/profile/', $filename);
-
-      // Create the thumbnail directory if it doesn't exist
-      $thumbnailDirectory = 'user/' . $user->id . '/profile/thumbnail/';
-      if (!file_exists($thumbnailDirectory)) {
-        mkdir($thumbnailDirectory, 0777, true);
-      }
-
-      // Save the thumbnail to the specified path
-      $thumbnail->save('user/' . $user->id . '/profile/thumbnail/' . $filename);
-      $updateData['profile_image'] = asset('user/' . $user->id . '/profile/' . $filename);
+      $filepath=$this->profileImageUpload($file,$user);
+      $updateData['profile_image'] = $filepath;
     } else {
       if (!$request->has('profile_img_url')) {
-        if (file_exists('user/' . $user->id . '/profile')) {
-          unlink('user/' . $user->id . '/profile');
+        if (File::exists('user/' . $user->id . '/profile')) {
+          // Delete the folder and its contents
+          File::deleteDirectory('user/' . $user->id . '/profile');
         }
         $updateData['profile_image'] = null;
       }

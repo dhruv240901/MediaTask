@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/@form-validation/umd/styles/index.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/toastr/toastr.css')}}" />@endsection
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/toastr/toastr.css')}}" />
+@endsection
 
 @section('vendor-script')
     <script src="{{ asset('assets/vendor/libs/moment/moment.js') }}"></script>
@@ -147,5 +148,4 @@
             </div>
         </div>
     </div>
-
 @endsection

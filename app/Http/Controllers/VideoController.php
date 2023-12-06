@@ -13,7 +13,7 @@ class VideoController extends Controller
   /* Render my videos mage */
   public function myVideos()
   {
-    $videos=Video::paginate(6);
+    $videos=Video::orderBy('name')->paginate(6);
     return view('videos.list',compact('videos'));
   }
 
@@ -57,7 +57,7 @@ class VideoController extends Controller
   {
     $request->validate([
       'name'  => 'required|string',
-      'video' => 'nullable|mimes:mp4,mov,ogg'
+      'video' => 'required|mimes:mp4,mov,ogg'
     ]);
 
     $video = Video::findOrFail($id);

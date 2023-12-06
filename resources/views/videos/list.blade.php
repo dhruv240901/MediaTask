@@ -8,9 +8,35 @@
 
 @section('content')
 <h4 class="py-3 mb-4"><span class="text-muted fw-light">UI Elements /</span> Cards Basic</h4>
-<div class="mb-3 float-right">
-  <a href="{{ route('add-videos') }}" class="btn btn-primary">+Add Video</a>
+<div class="row mx-2 mb-3">
+  <div class="col-md-2">
+      <div class="me-3">
+        <a href="{{ route('add-videos') }}" class="btn btn-primary">+Add Video</a>
+      </div>
+  </div>
+  <div class="col-md-10">
+      <div
+          class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
+          <div id="DataTables_Table_0_filter" class="dataTables_filter"><label><input type="search"
+                      class="form-control searchfield" placeholder="Search.."
+                      aria-controls="DataTables_Table_0" id="search_input"></label></div>
+      </div>
+  </div>
 </div>
+{{-- <div class=" mb-3"> --}}
+  {{-- <div class="col-md-2">
+    <a href="{{ route('add-videos') }}" class="btn btn-primary">+Add Video</a>
+  </div>
+  <div class="col-md-2 float-end">
+    <input type="text" class="form-control" id="defaultFormControlInput" placeholder="John Doe" aria-describedby="defaultFormControlHelp">
+  </div> --}}
+  {{-- <div>
+    <label for="defaultFormControlInput" class="form-label">Name</label>
+
+  </div> --}}
+  {{-- <a href="{{ route('add-videos') }}" class="btn btn-primary">+Add Video</a>
+  <a href="{{ route('add-videos') }}" class="btn btn-primary float-end">+Add Video</a>
+</div> --}}
 <!-- Examples -->
 <div class="row mb-5">
 @foreach ($videos as $video)
@@ -47,67 +73,7 @@
     </div>
   </div>
 @endforeach
-
-  {{-- <div class="col-md-6 col-lg-4 mb-3">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{asset('assets/img/elements/2.jpg')}}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">
-          Some quick example text to build on the card title and make up the bulk of the card's content.
-        </p>
-        <a href="javascript:void(0)" class="btn btn-outline-primary">Go somewhere</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-4 mb-3">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{asset('assets/img/elements/2.jpg')}}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">
-          Some quick example text to build on the card title and make up the bulk of the card's content.
-        </p>
-        <a href="javascript:void(0)" class="btn btn-outline-primary">Go somewhere</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-4 mb-3">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{asset('assets/img/elements/2.jpg')}}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">
-          Some quick example text to build on the card title and make up the bulk of the card's content.
-        </p>
-        <a href="javascript:void(0)" class="btn btn-outline-primary">Go somewhere</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-4 mb-3">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{asset('assets/img/elements/2.jpg')}}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">
-          Some quick example text to build on the card title and make up the bulk of the card's content.
-        </p>
-        <a href="javascript:void(0)" class="btn btn-outline-primary">Go somewhere</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-4 mb-3">
-    <div class="card h-100">
-      <img class="card-img-top" src="{{asset('assets/img/elements/2.jpg')}}" alt="Card image cap" />
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">
-          Some quick example text to build on the card title and make up the bulk of the card's content.
-        </p>
-        <a href="javascript:void(0)" class="btn btn-outline-primary">Go somewhere</a>
-      </div>
-    </div>
-  </div> --}}
+{!! $videos->links() !!}
 </div>
 
 

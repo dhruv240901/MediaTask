@@ -58,7 +58,7 @@
         </div>
         @if($user->profile_image!=null)
         <div class="mb-3" id="profile_img">
-         <img src="{{ $user->profile_image }}">
+         <img src="{{ asset($user->profile_image) }}">
          <input class="form-control" type="hidden" id="formFile" value="{{ $user->profile_image }}" name="profile_img_url">
         </div>
         <div class="mb-3">
