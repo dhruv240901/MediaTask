@@ -12,10 +12,24 @@ class VideoController extends Controller
   use FileUpload;
 
   /* Render my videos mage */
-  public function myVideos()
+  public function myVideos(Request $request)
   {
-    $videos = Video::orderBy('name')->paginate(6);
-    return view('videos.list', compact('videos'));
+    $request->validate([
+      'search_text' => 'nullable|string'
+    ]);
+
+    $query=Video::query();
+
+    if($request->search_text != null){
+      $query->where('name','Like','%'.$request->search_text.'%');
+    }
+
+    $videos = $query->orderBy('name')->paginate(6);
+
+    if($request->is_ajax==true){
+      return view('videos.list', compact('videos'));
+    }
+    return view('videos.table', compact('videos'));
   }
 
   /* function to render add and edit video form */
@@ -54,32 +68,6 @@ class VideoController extends Controller
     }
 
     return redirect()->route('my-videos')->with('success', 'Video Uploaded Successfully');
-  }
-
-  /* function to render edit video from */
-  public function edit($id)
-  {
-    $video = Video::findOrFail($id);
-    return view('videos.addEdit', compact('video'));
-  }
-
-  /* function to update video in the database */
-  public function update(Request $request, $id)
-  {
-    $request->validate([
-      'name'  => 'required|string',
-      'video' => 'required|mimes:mp4,mov,ogg'
-    ]);
-
-    $video = Video::findOrFail($id);
-    $video->update(['name' => $request->name]);
-    if ($request->hasFile('video')) {
-      $file = $request->file('video');
-      $file = $this->videoUpload($file, $video);
-      $video->update(['file_url' => $file['url'], 'file_name' => $file['name']]);
-    }
-
-    return redirect()->route('my-videos')->with('success', 'Video Updated Successfully');
   }
 
   public function destroy($id)
