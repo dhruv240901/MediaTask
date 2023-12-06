@@ -58,7 +58,7 @@
     </div>
   </div>
 @endforeach
-
+{!! $videos->links() !!}
 </div>
 
 

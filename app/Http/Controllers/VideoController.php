@@ -6,6 +6,7 @@ use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Traits\FileUpload;
 use Illuminate\Support\Facades\File;
+
 class VideoController extends Controller
 {
   use FileUpload;
@@ -13,47 +14,57 @@ class VideoController extends Controller
   /* Render my videos mage */
   public function myVideos()
   {
-    $videos=Video::orderBy('name')->paginate(6);
-    return view('videos.list',compact('videos'));
+    $videos = Video::orderBy('name')->paginate(6);
+    return view('videos.list', compact('videos'));
   }
 
-  /* function to render add video form */
-  public function create()
+  /* function to render add and edit video form */
+  public function addEdit($id = null)
   {
-    $video=null;
-    return view('videos.addEdit',compact('video'));
+    if ($id != null) {
+      $video = Video::findOrFail($id);
+    } else {
+      $video = null;
+    }
+
+    return view('videos.addEdit', compact('video'));
   }
 
-  /* function to store video in database */
-  public function store(Request $request)
+  /* function to store and update video in database */
+  public function storeUpdate(Request $request, $id = null)
   {
     $request->validate([
       'name'  => 'required|string',
       'video' => 'required|mimes:mp4,mov,ogg'
     ]);
 
-    $video = Video::create([
-      'name'  => $request->name,
-    ]);
+    if ($id != null) {
+      $video = Video::findOrFail($id);
+      $video->update(['name' => $request->name]);
+    } else {
+      $video = Video::create([
+        'name'  => $request->name,
+      ]);
+    }
 
     if ($request->hasFile('video')) {
       $file = $request->file('video');
-      $file=$this->videoUpload($file,$video);
-      $video->update(['file_url' => $file['url'],'file_name' => $file['name']]);
+      $file = $this->videoUpload($file, $video);
+      $video->update(['file_url' => $file['url'], 'file_name' => $file['name']]);
     }
 
-    return redirect()->route('my-videos')->with('success','Video Uploaded Successfully');
+    return redirect()->route('my-videos')->with('success', 'Video Uploaded Successfully');
   }
 
   /* function to render edit video from */
   public function edit($id)
   {
-    $video=Video::findOrFail($id);
-    return view('videos.addEdit',compact('video'));
+    $video = Video::findOrFail($id);
+    return view('videos.addEdit', compact('video'));
   }
 
   /* function to update video in the database */
-  public function update(Request $request,$id)
+  public function update(Request $request, $id)
   {
     $request->validate([
       'name'  => 'required|string',
@@ -64,11 +75,11 @@ class VideoController extends Controller
     $video->update(['name' => $request->name]);
     if ($request->hasFile('video')) {
       $file = $request->file('video');
-      $file=$this->videoUpload($file,$video);
-      $video->update(['file_url' => $file['url'],'file_name' => $file['name']]);
+      $file = $this->videoUpload($file, $video);
+      $video->update(['file_url' => $file['url'], 'file_name' => $file['name']]);
     }
 
-    return redirect()->route('my-videos')->with('success','Video Updated Successfully');
+    return redirect()->route('my-videos')->with('success', 'Video Updated Successfully');
   }
 
   public function destroy($id)

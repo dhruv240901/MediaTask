@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
-  use AjaxResponse,FileUpload;
+  use AjaxResponse, FileUpload;
 
   /* function to render users list table */
   public function index(Request $request)
@@ -87,7 +87,7 @@ class UserController extends Controller
     // Check if user had upload file or not
     if ($request->hasfile('profile_img')) {
       $file = $request->file('profile_img');
-      $filepath=$this->profileImageUpload($file,$user);
+      $filepath = $this->profileImageUpload($file, $user);
       $updateData['profile_image'] = $filepath;
     } else {
       if (!$request->has('profile_img_url')) {
@@ -111,21 +111,11 @@ class UserController extends Controller
     ]);
     $user = User::findOrFail($request->id);
 
-    // Inactivate user if user is Activated
-    if ($request->checked == "false") {
-      $user->update(['is_active' => false]);
-      $message = "User Inactivated Successfully";
-    }
-
-    // Activate user if user is Inactivated
-    if ($request->checked == "true") {
-      $user->update(['is_active' => true]);
-      $message = "User Activated Successfully";
-    }
-
-    $response = $this->success(200, $message);
+    $request->checked == "false" ? $user->update(['is_active' => false]) : $user->update(['is_active' => true]);
+    $response = $this->success(200, "Status Updated Successfully");
     return $response;
   }
+
   /* function to delete user by id */
   public function destroy($id)
   {
