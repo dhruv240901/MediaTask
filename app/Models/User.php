@@ -56,4 +56,10 @@ class User extends Authenticatable
     });
 
   }
+
+  /* add relationship between users and videos table through shared_videos pivot table */
+  public function videos()
+  {
+    return $this->belongsToMany(Video::class,'shared_videos');
+  }
 }

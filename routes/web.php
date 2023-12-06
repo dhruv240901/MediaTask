@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::get('edit/{id}', [VideoController::class, 'addEdit'])->name('edit-video');
     Route::put('update/{id}', [VideoController::class, 'storeUpdate'])->name('update-video');
     Route::delete('delete/{id}', [VideoController::class, 'destroy'])->name('delete-video');
+    Route::post('shareVideo', [VideoController::class, 'shareVideo'])->name('share-video');
     Route::get('shared', [VideoController::class, 'sharedVideos'])->name('shared-videos');
   });
 });

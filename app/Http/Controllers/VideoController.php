@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use App\Traits\FileUpload;
@@ -18,29 +19,33 @@ class VideoController extends Controller
       'search_text' => 'nullable|string'
     ]);
 
-    $query=Video::query();
+    $query = Video::query();
 
-    if($request->search_text != null){
-      $query->where('name','Like','%'.$request->search_text.'%');
+    if ($request->search_text != null) {
+      $query->where('name', 'Like', '%' . $request->search_text . '%');
     }
 
-    $videos = $query->orderBy('name')->paginate(6);
+    $videos = $query->where('created_by',auth()->id())->orderBy('name')->paginate(6);
 
-    if($request->is_ajax==true){
-      return view('videos.list', compact('videos'));
+    $otherUsers = User::whereNot('id', auth()->id())->get();
+
+    // Output the JSON format
+    // dd($jsonFormat);
+    if ($request->is_ajax == true) {
+      return view('videos.list', compact('videos', 'otherUsers'));
     }
-    return view('videos.table', compact('videos'));
+
+
+    return view('videos.table', compact('videos', 'otherUsers'));
   }
 
   /* function to render add and edit video form */
   public function addEdit($id = null)
   {
-    if ($id != null) {
+    $video = null;
+    if ($id) {
       $video = Video::findOrFail($id);
-    } else {
-      $video = null;
     }
-
     return view('videos.addEdit', compact('video'));
   }
 
@@ -49,17 +54,14 @@ class VideoController extends Controller
   {
     $request->validate([
       'name'  => 'required|string',
-      'video' => 'required|mimes:mp4,mov,ogg'
+      'video' => 'nullable|mimes:mp4,mov,ogg'
     ]);
 
-    if ($id != null) {
-      $video = Video::findOrFail($id);
-      $video->update(['name' => $request->name]);
-    } else {
-      $video = Video::create([
-        'name'  => $request->name,
-      ]);
-    }
+    $video = Video::updateOrCreate([
+      'id'  => $id,
+    ], [
+      'name'  => $request->name,
+    ]);
 
     if ($request->hasFile('video')) {
       $file = $request->file('video');
@@ -70,6 +72,7 @@ class VideoController extends Controller
     return redirect()->route('my-videos')->with('success', 'Video Uploaded Successfully');
   }
 
+  /* function to delete video */
   public function destroy($id)
   {
     Video::findOrFail($id)->delete();
@@ -80,9 +83,34 @@ class VideoController extends Controller
     return redirect()->route('my-videos')->with('success', 'Video deleted successfully');
   }
 
+  /* function to share video */
+  public function shareVideo(Request $request)
+  {
+    $request->validate([
+      'videoId'        => 'required|string',
+      'sharedUserList' => 'nullable|array',
+    ]);
+
+    $video = Video::findOrFail($request->videoId);
+    if ($request->sharedUserList) {
+
+      // Delete Old users of requested video from the database
+      foreach ($video->users as $key => $userId) {
+        $video->users()->detach($video->users[$key]);
+      }
+
+      // Add New Users of requested video in the database
+      foreach ($request->sharedUserList as $key => $userId) {
+        $video->users()->attach($request->sharedUserList[$key]);
+      }
+    }
+    return redirect()->route('my-videos')->with('success', 'Video Shared successfully');
+  }
+
   /* Render shared videos mage */
   public function sharedVideos()
   {
-    return view('videos.sharedVideos');
+    $sharedVideos=auth()->user()->videos()->get();
+    return view('videos.sharedVideos',compact('sharedVideos'));
   }
 }

@@ -92,7 +92,6 @@ trait FileUpload
   public function generateFileName($file, $module)
   {
     $name      = $file->getClientOriginalName();
-    $filename  = pathinfo($name, PATHINFO_FILENAME);
     $extension = pathinfo($name, PATHINFO_EXTENSION);
     $nameDate['date'] = date('dmYhisa', time());
     $nameDate['filename']  = ($nameDate['date'] . '_' . $module->name . '.' . $extension);
