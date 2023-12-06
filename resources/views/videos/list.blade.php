@@ -45,14 +45,14 @@
       <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#showVideo{{ $video->id }}"><img class="card-img-top" src="{{asset('user/' . auth()->id() . '/media/' . $video->id . '/thumbnail/'. $video->file_name.'.jpg')}}" alt="Card image cap" /></a>
       <div class="card-body">
         <h5 class="card-title">{{ $video->name }}</h5>
-        <a href="{{ route('edit-video',$video->id) }}" class="btn btn-outline-primary">Edit</a>
+        <a href="{{ route('edit-video',$video->id) }}" class="btn btn-outline-primary"><i class="bx bxs-edit"></i></a>
         <form action="{{ route('delete-video', $video->id) }}" method="POST" class="softdeleteform"
           style="display: inline">
           @csrf
           @method('DELETE')
-          <button type="submit" class="btn btn-outline-danger">Delete</button>
+          <button type="submit" class="btn btn-outline-danger"><i class="bx bxs-trash"></i></button>
         </form>
-        <a href="javascript:void(0)" class="btn btn-outline-info">Share</a>
+        <a href="javascript:void(0)" class="btn btn-outline-info"><i class='bx bxs-share-alt' ></i></a>
       </div>
     </div>
   </div>
