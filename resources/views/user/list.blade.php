@@ -1,4 +1,29 @@
-@foreach ($users as $k => $user)
+
+
+<table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0"
+aria-describedby="DataTables_Table_0_info" style="width: 1387px;">
+<thead>
+    <tr>
+        <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1"
+            style="width: 0px; display: none;" aria-label=""></th>
+        <th class="sorting_disabled" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+            colspan="1" style="width: 400px;" aria-label="User: activate to sort column descending"
+            aria-sort="ascending">User</th>
+        <th class="sorting_disabled" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+            colspan="1" style="width: 224.5px;" aria-label="Role: activate to sort column ascending">
+            Phone</th>
+        <th class="sorting_disabled" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+            colspan="1" style="width: 224.5px;" aria-label="Plan: activate to sort column ascending">
+            Gender</th>
+        <th class="sorting_disabled" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1"
+            colspan="1" style="width: 115px;" aria-label="Status: activate to sort column ascending">
+            Status</th>
+        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 144px;"
+            aria-label="Actions">Actions</th>
+    </tr>
+</thead>
+<tbody>
+  @foreach ($users as $k => $user)
 <tr>
     <td class="  control" tabindex="0" style="display: none;"></td>
     <td class="sorting_1">
@@ -34,4 +59,6 @@
     </td>
 </tr>
 @endforeach
+</tbody>
+</table>
 {!! $users->links() !!}

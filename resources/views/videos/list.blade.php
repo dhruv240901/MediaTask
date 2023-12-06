@@ -23,21 +23,6 @@
       </div>
   </div>
 </div>
-{{-- <div class=" mb-3"> --}}
-  {{-- <div class="col-md-2">
-    <a href="{{ route('add-videos') }}" class="btn btn-primary">+Add Video</a>
-  </div>
-  <div class="col-md-2 float-end">
-    <input type="text" class="form-control" id="defaultFormControlInput" placeholder="John Doe" aria-describedby="defaultFormControlHelp">
-  </div> --}}
-  {{-- <div>
-    <label for="defaultFormControlInput" class="form-label">Name</label>
-
-  </div> --}}
-  {{-- <a href="{{ route('add-videos') }}" class="btn btn-primary">+Add Video</a>
-  <a href="{{ route('add-videos') }}" class="btn btn-primary float-end">+Add Video</a>
-</div> --}}
-<!-- Examples -->
 <div class="row mb-5">
 @foreach ($videos as $video)
  <div class="col-md-6 col-lg-4 mb-3">
@@ -73,7 +58,7 @@
     </div>
   </div>
 @endforeach
-{!! $videos->links() !!}
+
 </div>
 
 

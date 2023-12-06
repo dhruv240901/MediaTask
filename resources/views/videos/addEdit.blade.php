@@ -20,37 +20,6 @@
     </h4>
 
     <div class="row">
-        <!-- Basic  -->
-        {{-- <form action="{{ route('store-videos') }}" method="POST" enctype="multipart/form-data">
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Name</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" name="name"/>
-          </div>
-        <div class="mb-3">
-          <label for="formFile" class="form-label">Select Video</label>
-          <input class="form-control" type="file" id="formFile" accept="image/*" name="profile_img">
-        </div> --}}
-        {{-- <div class="col-12 my-3">
-            <div class="card mb-4">
-                <h5 class="card-header">Upload Video</h5>
-                <div class="card-body">
-                    <form action="{{ route('store-videos') }}" method="POST" class="dropzone needsclick"
-                        id="dropzone-basic" enctype="multipart/form-data">
-                        @csrf
-                        <div class="dz-message needsclick">
-                            Drop files here or click to upload
-                            <span class="note needsclick">(This is just a demo dropzone. Selected files are <span
-                                    class="fw-medium">not</span> actually uploaded.)</span>
-                        </div>
-                        <div class="fallback">
-                            <input name="video" type="file" value="abc" />
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div> --}}
-        <!-- /Basic  -->
         <div class="col-md-6 mx-auto">
           <div class="card mb-4">
             <h5 class="card-header">{{ isset($video)&&$video!=null ? 'Edit' : 'Add' }} Video</h5>
