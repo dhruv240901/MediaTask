@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/tagify/tagify.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
 @endsection
 
 @section('vendor-script')
@@ -16,6 +18,7 @@
     <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/bloodhound/bloodhound.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
 @section('page-script')
@@ -23,10 +26,11 @@
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
     <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
     <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
+    <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
     <script>
         $(document).on('keyup change', '.searchfield', function() {
             $.ajax({
-                url: "{{ route('my-videos') }}",
+                url: "{{ route('shared-videos') }}",
                 method: 'GET',
                 data: {
                     status: $('#status').val(),
@@ -37,7 +41,24 @@
                     $('.videodetails').html(data)
                 }
             })
-        })
+        });
+        // $(document).on('submit', '.shareuserform', function (e) {
+        //   e.preventDefault()
+        //   var currentForm = $(this);
+        //     Swal.fire({
+        //         title: "Are you sure?",
+        //         text: "You won't to share this video!",
+        //         icon: "warning",
+        //         showCancelButton: true,
+        //         confirmButtonColor: "#3085d6",
+        //         cancelButtonColor: "#d33",
+        //         confirmButtonText: "Yes, share it!"
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             currentForm.unbind('submit').submit();
+        //         }
+        //     });
+        // });
     </script>
 @endsection
 

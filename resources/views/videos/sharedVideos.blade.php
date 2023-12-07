@@ -2,46 +2,105 @@
 
 @section('title', 'Cards basic - UI elements')
 
+@section('vendor-style')
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/tagify/tagify.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
+@endsection
+
 @section('vendor-script')
     <script src="{{ asset('assets/vendor/libs/masonry/masonry.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/tagify/tagify.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/bloodhound/bloodhound.js') }}"></script>
+@endsection
+
+@section('page-script')
+    <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
+    <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
+    <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
+    <script>
+        var selectedValues = [];
+
+
+
+        $(document).on('keyup change', '.searchfield', function() {
+            // Iterate over each select box with the class 'sharedUserList'
+            $("select.sharedUserList").each(function() {
+                // Get the selected value for each select box
+                var selectedValue = $(this).val();
+
+                // Add the selected value to the array
+                selectedValues.push(selectedValue);
+            });
+
+            // Display the selected values (you can use them as needed)
+            console.log($("select[name='sharedUserList[]']").find(':selected'))
+            $.ajax({
+                url: "{{ route('shared-videos') }}",
+                method: 'GET',
+                data: {
+                    status: $('#status').val(),
+                    search_text: $('#search').val(),
+                    sharedUserList: $("input[name='sharedUserList[]']").val(),
+                    is_ajax: true
+                },
+                success: function(data) {
+                    $('.sharedVideosList').html(data);
+                }
+            })
+        });
+    </script>
 @endsection
 
 @section('content')
     <h4 class="py-3 mb-4"><span class="text-muted fw-light">UI Elements /</span> Cards Basic</h4>
-
-    <!-- Examples -->
-    <div class="row mb-5">
-        @foreach ($sharedVideos as $video)
-            <div class="col-md-6 col-lg-4 mb-3">
-                <div class="card h-100">
-                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#showVideo{{ $video->id }}"><img
-                            class="card-img-top"
-                            src="{{ asset('user/' . $video->created_by . '/media/' . $video->id . '/thumbnail/' . $video->file_name . '.jpg') }}"
-                            alt="Card image cap" /></a>
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $video->name }}</h5>
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="position-relative">
+                        <select id="selectpickerLiveSearch selectpickerSelectDeselect sharedUserList" name="sharedUserList[]"
+                            class="selectpicker w-100 searchfield" data-style="btn-default" data-live-search="true" multiple
+                            data-actions-box="false" data-size="5">
+                            @foreach ($otherUsers as $user)
+                                @if ($user->profile_image == '')
+                                    <option value="{{ $user->id }}"
+                                        data-content="<img src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&size=30&background=696cff&color=FFFFFF' class='avatar-initial rounded-circle'>&nbsp;{{ $user->name }}">
+                                        {{ $user->name }}</option>
+                                @else
+                                    <option value="{{ $user->id }}"
+                                        data-content="<img src='{{ asset($user->profile_image) }}' class='rounded-circle' width='30' height='30'>&nbsp;{{ $user->name }}">
+                                        {{ $user->name }}</option>
+                                @endif
+                            @endforeach
+                        </select>
                     </div>
                 </div>
+                <div class="col-md-3">
+                </div>
+                <div class="col-md-2 text-md-end">
+                    <select class="form-select searchfield" id="status" aria-label="Default select example">
+                        <option selected value="">Select Status</option>
+                        <option value="1">Active</option>
+                        <option value="0">Inactive</option>
+                    </select>
+                </div>
+                <div class="col-md-2 text-md-end">
+                    <input type="text" name='search' class="form-control searchfield" id="search"
+                        placeholder="Search" value="" />
+                </div>
+                <div class="col-md-1 text-md-end">
+                    <a href="{{ route('my-videos') }}" class="btn btn-danger">Cancel</a>
+                </div>
             </div>
-
-            <div class="modal fade" id="showVideo{{ $video->id }}" tabindex="-1" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title" id="modalCenterTitle">{{ $video->name }}</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body d-flex">
-                          <video width="700" height="240" controls>
-                              <source src="{{ asset($video->file_url) }}" type="video/mp4">
-                          </video>
-                      </div>
-                  </div>
-              </div>
-          </div>
-        @endforeach
+        </div>
     </div>
-
-
-
+    <!-- Examples -->
+    <div class="row mb-5 sharedVideosList">
+        @include('videos.sharedVideosList')
+    </div>
 @endsection

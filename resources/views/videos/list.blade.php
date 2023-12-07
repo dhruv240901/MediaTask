@@ -45,7 +45,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
-                  <form action="{{ route('share-video') }}" method="POST">
+                  <form action="{{ route('share-video') }}" method="POST" class="shareuserform" data-id="{{ $video->id }}" id="shareuserform{{ $video->id }}">
                       @csrf
                       <input type="hidden" value="{{ $video->id }}" name="videoId">
                       <div class="col-md-12 mb-4">

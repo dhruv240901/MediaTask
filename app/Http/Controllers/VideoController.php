@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\File;
 
 class VideoController extends Controller
 {
-  use FileUpload,AjaxResponse;
+  use FileUpload, AjaxResponse;
 
   /* Render my videos mage */
   public function myVideos(Request $request)
@@ -24,14 +24,14 @@ class VideoController extends Controller
     $query = Video::query();
 
     if ($request->status != null) {
-      $query->where('is_active',$request->status);
+      $query->where('is_active', $request->status);
     }
 
     if ($request->search_text != null) {
       $query->where('name', 'Like', '%' . $request->search_text . '%');
     }
 
-    $videos = $query->where('created_by',auth()->id())->orderBy('name')->paginate(6);
+    $videos = $query->where('created_by', auth()->id())->orderBy('name')->paginate(6);
 
     $otherUsers = User::whereNot('id', auth()->id())->get();
 
@@ -116,16 +116,40 @@ class VideoController extends Controller
   }
 
   /* Render shared videos mage */
-  public function sharedVideos()
+  public function sharedVideos(Request $request)
   {
-    $sharedVideos=auth()->user()->videos()->get();
-    return view('videos.sharedVideos',compact('sharedVideos'));
+    $request->validate([
+      'search_text'    => 'nullable|string',
+      'status'         => 'nullable|boolean',
+      'sharedUserList' => 'nullable|array'
+    ]);
+
+    $sharedVideos = auth()->user()->videos()->where(function ($query) use ($request) {
+      if ($request->status != null) {
+        $query->where('is_active', $request->status);
+      }
+      if ($request->search_text != null) {
+        $query->where('name', 'Like', '%' . $request->search_text . '%');
+      }
+      if ($request->sharedUserList!= null) {
+        $query->whereHas('users', function ($query2) use ($request) {
+          $query2->whereIn('user_id', $request->sharedUserList);
+        });
+      }
+    })->paginate(6);
+
+    $otherUsers = User::whereNot('id', auth()->id())->get();
+    if ($request->is_ajax == true) {
+      return view('videos.sharedVideosList', compact('sharedVideos', 'otherUsers'));
+    }
+
+    return view('videos.sharedVideos', compact('sharedVideos', 'otherUsers'));
   }
 
   public function shareUserList()
   {
-    $users=User::whereNot('id',auth()->id())->get();
-    $response = $this->success(200, "Status Updated Successfully",$users);
+    $users = User::whereNot('id', auth()->id())->get();
+    $response = $this->success(200, "Status Updated Successfully", $users);
     return $response;
   }
 }
