@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Video;
+use App\Traits\AjaxResponse;
 use Illuminate\Http\Request;
 use App\Traits\FileUpload;
 use Illuminate\Support\Facades\File;
 
 class VideoController extends Controller
 {
-  use FileUpload;
+  use FileUpload,AjaxResponse;
 
   /* Render my videos mage */
   public function myVideos(Request $request)
@@ -119,5 +120,12 @@ class VideoController extends Controller
   {
     $sharedVideos=auth()->user()->videos()->get();
     return view('videos.sharedVideos',compact('sharedVideos'));
+  }
+
+  public function shareUserList()
+  {
+    $users=User::whereNot('id',auth()->id())->get();
+    $response = $this->success(200, "Status Updated Successfully",$users);
+    return $response;
   }
 }

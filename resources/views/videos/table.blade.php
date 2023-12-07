@@ -29,7 +29,7 @@
                 url: "{{ route('my-videos') }}",
                 method: 'GET',
                 data: {
-                    status:$('#status').val(),
+                    status: $('#status').val(),
                     search_text: $('#search').val(),
                     is_ajax: true
                 },
@@ -56,16 +56,18 @@
                     </select>
                 </div>
                 <div class="col-md-2 text-md-end">
-                    <input type="text" name='search' class="form-control searchfield" id="search" placeholder="Search"
-                        value="" />
+                    <input type="text" name='search' class="form-control searchfield" id="search"
+                        placeholder="Search" value="" />
                 </div>
                 <div class="col-md-1 text-md-end">
-                  <a href="{{ route('my-videos') }}" class="btn btn-danger">Cancel</a>
-              </div>
+                    <a href="{{ route('my-videos') }}" class="btn btn-danger">Cancel</a>
+                </div>
             </div>
         </div>
     </div>
     <div class="row mb-5 videodetails">
         @include('videos.list')
     </div>
+
+
 @endsection

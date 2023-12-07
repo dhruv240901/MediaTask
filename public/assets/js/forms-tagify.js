@@ -4,6 +4,8 @@
 
 'use strict';
 
+// const { forEach } = require('lodash');
+
 (function () {
   // Basic
   //------------------------------------------------------
@@ -104,68 +106,42 @@
   //------------------------------------------------------
   const TagifyUserListEl = document.querySelector('#TagifyUserList');
 
-  // const usersList = [
-  //   {
-  //     value: 1,
-  //     name: 'Justinian Hattersley',
-  //     avatar: 'https://i.pravatar.cc/80?img=1',
-  //     email: 'jhattersley0@ucsd.edu'
-  //   },
-  //   {
-  //     value: 2,
-  //     name: 'Antons Esson',
-  //     avatar: 'https://i.pravatar.cc/80?img=2',
-  //     email: 'aesson1@ning.com'
-  //   },
-  //   {
-  //     value: 3,
-  //     name: 'Ardeen Batisse',
-  //     avatar: 'https://i.pravatar.cc/80?img=3',
-  //     email: 'abatisse2@nih.gov'
-  //   },
-  //   {
-  //     value: 4,
-  //     name: 'Graeme Yellowley',
-  //     avatar: 'https://i.pravatar.cc/80?img=4',
-  //     email: 'gyellowley3@behance.net'
-  //   },
-  //   {
-  //     value: 5,
-  //     name: 'Dido Wilford',
-  //     avatar: 'https://i.pravatar.cc/80?img=5',
-  //     email: 'dwilford4@jugem.jp'
-  //   },
-  //   {
-  //     value: 6,
-  //     name: 'Celesta Orwin',
-  //     avatar: 'https://i.pravatar.cc/80?img=6',
-  //     email: 'corwin5@meetup.com'
-  //   },
-  //   {
-  //     value: 7,
-  //     name: 'Sally Main',
-  //     avatar: 'https://i.pravatar.cc/80?img=7',
-  //     email: 'smain6@techcrunch.com'
-  //   },
-  //   {
-  //     value: 8,
-  //     name: 'Grethel Haysman',
-  //     avatar: 'https://i.pravatar.cc/80?img=8',
-  //     email: 'ghaysman7@mashable.com'
-  //   },
-  //   {
-  //     value: 9,
-  //     name: 'Marvin Mandrake',
-  //     avatar: 'https://i.pravatar.cc/80?img=9',
-  //     email: 'mmandrake8@sourceforge.net'
-  //   },
-  //   {
-  //     value: 10,
-  //     name: 'Corrie Tidey',
-  //     avatar: 'https://i.pravatar.cc/80?img=10',
-  //     email: 'ctidey9@youtube.com'
-  //   }
-  // ];
+  async function fetchUsers() {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/shareUserList');
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const users = await response.json(); // Await the JSON parsing
+      const userData = users.data;
+
+      const usersList = [];
+      for (const user of userData) {
+        console.log('user', user);
+
+        // Assuming user has properties like id, name, avatar, and email
+        usersList.push({
+          value: user.id,
+          name: user.name,
+          avatar: user.avatar,
+          email: user.email
+        });
+      }
+
+      // Do something with the usersList, like rendering it on the UI or processing further
+      console.log(usersList);
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    }
+  }
+
+  // Call the function to fetch users
+  window.onload = function () {
+    console.log('okk');
+    fetchUsers();
+  };
 
   function tagTemplate(tagData) {
     return `
@@ -231,7 +207,7 @@
       dropdownItem: suggestionItemTemplate,
       dropdownHeader: dropdownHeaderTemplate
     },
-    whitelist: shareusersList
+    whitelist: usersList
   });
 
   // attach events listeners
