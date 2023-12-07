@@ -40,7 +40,13 @@
               <div class="mb-3">
               @if(isset($video) && $video!=null)
                <img src="{{asset('user/' . auth()->id() . '/media/' . $video->id . '/thumbnail/'. $video->file_name.'.jpg')}}" width="100px" height="100px">
-               @endif
+              @endif
+              </div>
+              <div class="mb-3">
+                <input class="form-check-input" type="checkbox" id="defaultCheck3" name="is_active" value="1" @if(isset($video)&&$video->is_active==true) checked @endif>
+                <label class="form-check-label" for="defaultCheck3">
+                  Active
+                </label>
               </div>
               <div class="pt-4">
                 <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>

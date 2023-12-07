@@ -59,7 +59,7 @@
                     <form action="{{ route('share-video') }}" method="POST">
                         @csrf
                         <input type="hidden" value="{{ $video->id }}" name="videoId">
-                        @foreach ($otherUsers as $user)
+                        {{-- @foreach ($otherUsers as $user)
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="defaultCheck3"
                                     name="sharedUserList[]" value="{{ $user->id }}">
@@ -67,11 +67,11 @@
                                     {{ $user->name }}
                                 </label>
                             </div>
-                        @endforeach
-                        {{-- <div class="col-md-12 mb-4">
+                        @endforeach --}}
+                        <div class="col-md-12 mb-4">
                           <label for="TagifyUserList" class="form-label">Users List</label>
                           <input id="TagifyUserList" name="TagifyUserList" class="form-control" value="abatisse2@nih.gov, Justinian Hattersley" />
-                        </div> --}}
+                        </div>
                         <button type="submit" class="btn btn-primary">Share</button>
                     </form>
                 </div>

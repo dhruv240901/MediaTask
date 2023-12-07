@@ -16,10 +16,15 @@ class VideoController extends Controller
   public function myVideos(Request $request)
   {
     $request->validate([
-      'search_text' => 'nullable|string'
+      'search_text' => 'nullable|string',
+      'status'      => 'nullable|boolean',
     ]);
 
     $query = Video::query();
+
+    if ($request->status != null) {
+      $query->where('is_active',$request->status);
+    }
 
     if ($request->search_text != null) {
       $query->where('name', 'Like', '%' . $request->search_text . '%');
@@ -53,14 +58,16 @@ class VideoController extends Controller
   public function storeUpdate(Request $request, $id = null)
   {
     $request->validate([
-      'name'  => 'required|string',
-      'video' => 'nullable|mimes:mp4,mov,ogg'
+      'name'      => 'required|string',
+      'video'     => 'nullable|mimes:mp4,mov,ogg',
+      'is_active' => 'nullable|boolean'
     ]);
 
     $video = Video::updateOrCreate([
       'id'  => $id,
     ], [
-      'name'  => $request->name,
+      'name'      => $request->name,
+      'is_active' => $request->is_active ?? false
     ]);
 
     if ($request->hasFile('video')) {
