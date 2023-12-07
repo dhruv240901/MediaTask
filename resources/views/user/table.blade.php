@@ -24,6 +24,7 @@
 @endsection
 
 @section('page-script')
+@include('components.toastr')
     {{-- <script src="{{asset('assets/js/app-user-list.js')}}"></script> --}}
     <script>
         $(document).ready(function() {
