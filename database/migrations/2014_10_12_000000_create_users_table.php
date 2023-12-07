@@ -21,6 +21,7 @@ return new class extends Migration
       $table->string('profile_image')->nullable();
       $table->string('social_id');
       $table->string('social_type');
+      $table->boolean('is_google_pic')->default(0)->comment('0:Blocked,1:Active');
       $table->uuid('created_by')->nullable();
       $table->uuid('updated_by')->nullable();
       $table->timestamps();
