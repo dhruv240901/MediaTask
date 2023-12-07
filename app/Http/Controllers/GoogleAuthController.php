@@ -53,7 +53,7 @@ class GoogleAuthController extends Controller
 
       // authenticate user using id
       Auth::LoginUsingId($authUser->id);
-      return redirect('/');
+      return redirect()->route('index')->with('success','Login Successfully');
     } catch (\Throwable $th) {
       throw $th;
     }

@@ -19,6 +19,7 @@
 @endsection
 
 @section('page-script')
+@include('components.toastr')
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
     <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
     <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>

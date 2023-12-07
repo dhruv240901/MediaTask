@@ -29,8 +29,14 @@ aria-describedby="DataTables_Table_0_info" style="width: 1387px;">
     <td class="sorting_1">
         <div class="d-flex justify-content-start align-items-center user-name">
             <div class="avatar-wrapper">
-                <div class="avatar avatar-sm me-3"><img src="{{ $user->profile_image }}"
+                <div class="avatar avatar-sm me-3">
+                  @if($user->profile_image==null)
+                  <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&size=41&background=ff0000&color=FFFFFF"
                         class="avatar-initial rounded-circle bg-label-dark"></div>
+                  @else
+                  <img src="{{ asset($user->profile_image) }}"
+                        class="avatar-initial rounded-circle bg-label-dark"></div>
+                  @endif
             </div>
             <div class="d-flex flex-column"><span class="fw-medium">{{ $user->name }}
                         </span><small class="text-muted">{{ $user->email }}</small>

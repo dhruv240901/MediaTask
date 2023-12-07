@@ -24,12 +24,11 @@
 @endsection
 
 @section('page-script')
-@include('components.toastr')
-    {{-- <script src="{{asset('assets/js/app-user-list.js')}}"></script> --}}
+    @include('components.toastr')
     <script>
         $(document).ready(function() {
 
-            $(document).on('change keyup','.searchfield', function() {
+            $(document).on('change keyup', '.searchfield', function() {
                 $.ajax({
                     url: "{{ route('user-list') }}",
                     method: 'GET',
@@ -47,8 +46,8 @@
                 })
             })
 
-            $(document).on('change','.user-status', function() {
-              console.log('grtg')
+            $(document).on('change', '.user-status', function() {
+                console.log('grtg')
                 const id = $(this).data('id');
                 const isChecked = $(this).is(':checked');
 
@@ -96,8 +95,28 @@
                         <option value="ASC" class="text-capitalize">Ascending</option>
                         <option value="DESC" class="text-capitalize">Descending</option>
                     </select></div>
+                <div class="col-md-2">
+                    <div class="me-3">
+                        <div class="dataTables_length"><label><select name="DataTables_Table_0_length"
+                                    aria-controls="DataTables_Table_0" class="form-select searchfield"
+                                    fdprocessedid="mtik4b" id="limit">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select></label></div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                  <div
+                      class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
+                      <div id="DataTables_Table_0_filter" class="dataTables_filter"><label><input type="search"
+                                  class="form-control searchfield" placeholder="Search.."
+                                  aria-controls="DataTables_Table_0" id="search_input"></label></div>
+                  </div>
+              </div>
             </div>
-            <div class="row mx-2">
+            {{-- <div class="row mx-2">
                 <div class="col-md-2">
                     <div class="me-3">
                         <div class="dataTables_length"><label><select name="DataTables_Table_0_length"
@@ -118,7 +137,7 @@
                                     aria-controls="DataTables_Table_0" id="search_input"></label></div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
         <div class="card-datatable table-responsive">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer userdetails">
