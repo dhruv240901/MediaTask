@@ -132,9 +132,7 @@ class VideoController extends Controller
         $query->where('name', 'Like', '%' . $request->search_text . '%');
       }
       if ($request->sharedUserList!= null) {
-        $query->whereHas('users', function ($query2) use ($request) {
-          $query2->whereIn('user_id', $request->sharedUserList);
-        });
+        $query->whereIn('created_by',$request->sharedUserList);
       }
     })->paginate(6);
 

@@ -23,29 +23,30 @@
     <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
     <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
     <script>
-        var selectedValues = [];
-
-
-
         $(document).on('keyup change', '.searchfield', function() {
-            // Iterate over each select box with the class 'sharedUserList'
-            $("select.sharedUserList").each(function() {
-                // Get the selected value for each select box
-                var selectedValue = $(this).val();
+            // var selectedUsers = [];
+            // // Display the selected values (you can use them as needed)
+            // selectedUsers.push($("select[name='sharedUserList[]']").find(':selected'))
+            // console.log(selectedUsers);
 
-                // Add the selected value to the array
-                selectedValues.push(selectedValue);
+            var selectedValues = [];
+
+            // Iterate through each select box
+            $('.selectpicker').each(function() {
+                // Get selected options in the current select box
+                $(this).find('option:selected').each(function() {
+                    // Push the value to the selectedValues array
+                    selectedValues.push($(this).val());
+                });
             });
 
-            // Display the selected values (you can use them as needed)
-            console.log($("select[name='sharedUserList[]']").find(':selected'))
             $.ajax({
                 url: "{{ route('shared-videos') }}",
                 method: 'GET',
                 data: {
                     status: $('#status').val(),
                     search_text: $('#search').val(),
-                    sharedUserList: $("input[name='sharedUserList[]']").val(),
+                    sharedUserList: selectedValues,
                     is_ajax: true
                 },
                 success: function(data) {
@@ -63,9 +64,9 @@
             <div class="row g-3">
                 <div class="col-md-4">
                     <div class="position-relative">
-                        <select id="selectpickerLiveSearch selectpickerSelectDeselect sharedUserList" name="sharedUserList[]"
-                            class="selectpicker w-100 searchfield" data-style="btn-default" data-live-search="true" multiple
-                            data-actions-box="false" data-size="5">
+                        <select id="selectpickerLiveSearch selectpickerSelectDeselect sharedUserList"
+                            name="sharedUserList[]" class="selectpicker w-100 searchfield" data-style="btn-default"
+                            data-live-search="true" multiple data-actions-box="false" data-size="5">
                             @foreach ($otherUsers as $user)
                                 @if ($user->profile_image == '')
                                     <option value="{{ $user->id }}"
@@ -94,7 +95,7 @@
                         placeholder="Search" value="" />
                 </div>
                 <div class="col-md-1 text-md-end">
-                    <a href="{{ route('my-videos') }}" class="btn btn-danger">Cancel</a>
+                    <a href="{{ route('shared-videos') }}" class="btn btn-danger">Cancel</a>
                 </div>
             </div>
         </div>
