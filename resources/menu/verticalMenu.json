@@ -4,25 +4,25 @@
       "url": "/",
       "name": "Home",
       "icon": "menu-icon tf-icons bx bx-home-circle",
-      "slug": "pages-home"
+      "slug": "index"
     },
     {
       "url": "user/list",
       "icon": "menu-icon tf-icons bx bx-user",
       "name": "User",
-      "slug": "pages-page-2"
+      "slug": "user-list"
     },
     {
       "url": "video/list",
       "name": "My Videos",
       "icon": "menu-icon tf-icons bx bx-video",
-      "slug": "pages-misc-error"
+      "slug": "my-videos"
     },
     {
       "url": "video/shared",
       "name": "Shared Videos",
       "icon": "menu-icon tf-icons bx bx-video",
-      "slug": "auth-login-basic"
+      "slug": "shared-videos"
     }
   ]
 }
