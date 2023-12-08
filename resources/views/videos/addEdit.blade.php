@@ -1,6 +1,10 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'File upload - Forms')
+@if (isset($video) && $video != null)
+  @section('title', 'Edit Video')
+@else
+  @section('title', 'Add Video')
+@endif
 
 @section('vendor-style')
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/dropzone/dropzone.css') }}" />
@@ -18,10 +22,6 @@
 @endsection
 
 @section('content')
-    <h4 class="py-3 mb-4">
-        <span class="text-muted fw-light">Forms /</span> File upload
-    </h4>
-
     <div class="row">
         <div class="col-md-6 mx-auto">
             <div class="card mb-4">

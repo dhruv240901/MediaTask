@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', 'Edit Profile')
+@section('title', 'Edit User')
 
 @section('page-script')
 <script src="{{asset('assets/js/form-basic-inputs.js')}}"></script>
@@ -18,9 +18,6 @@
 @endsection
 
 @section('content')
-<h4 class="py-3 mb-4">
-  <span class="text-muted fw-light">User /</span> Edit User
-</h4>
 
 <div class="row">
 
@@ -58,7 +55,7 @@
         </div>
         @if($user->profile_image!=null)
         <div class="mb-3" id="profile_img">
-         <img src="{{ asset($user->profile_image) }}">
+         <img src="{{ asset($user->profile_image) }}" width="100" height="100">
          <input class="form-control" type="hidden" id="formFile" value="{{ $user->profile_image }}" name="profile_img_url">
         </div>
         <div class="mb-3">
