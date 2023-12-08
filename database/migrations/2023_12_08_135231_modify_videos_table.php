@@ -13,9 +13,9 @@ return new class extends Migration
   {
     Schema::table('videos', function (Blueprint $table) {
       $table->foreign('created_by')->references('id')->on('users')
-        ->onDelete('RESTRICT')->onUpdate('RESTRICT');
+        ->onDelete('CASCADE')->onUpdate('CASCADE');
       $table->foreign('updated_by')->references('id')->on('users')
-        ->onDelete('RESTRICT')->onUpdate('RESTRICT');
+        ->onDelete('CASCADE')->onUpdate('CASCADE');
     });
   }
 
@@ -26,9 +26,9 @@ return new class extends Migration
   {
     Schema::table('videos', function (Blueprint $table) {
       $table->foreign('created_by')->references('id')->on('users')
-        ->onDelete('RESTRICT')->onUpdate('RESTRICT');
+        ->onDelete('CASCADE')->onUpdate('CASCADE');
       $table->foreign('updated_by')->references('id')->on('users')
-        ->onDelete('RESTRICT')->onUpdate('RESTRICT');
+        ->onDelete('CASCADE')->onUpdate('CASCADE');
     });
   }
 };
