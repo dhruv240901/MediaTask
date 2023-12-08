@@ -76,6 +76,25 @@ trait FileUpload
     }
   }
 
+  /* function to store profile image and its thumbnail */
+  public function uploadProfileImage($file, $user, $filename)
+  {
+
+    $thumbnail = $this->imageThumbnail($file);
+
+    // Move the original file to the user's directory
+    $file->move('user/' . $user->id . '/profile/', $filename);
+
+    // Create the thumbnail directory if it doesn't exist
+    $thumbnailDirectory = 'user/' . $user->id . '/profile/thumbnail/';
+    if (!file_exists($thumbnailDirectory)) {
+      mkdir($thumbnailDirectory, 0777, true);
+    }
+
+    // Save the thumbnail to the specified path
+    $thumbnail->save('user/' . $user->id . '/profile/thumbnail/' . $filename);
+  }
+
   /* function to generate file name */
   public function generateFileName($file, $module)
   {
