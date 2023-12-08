@@ -119,7 +119,7 @@ class VideoController extends Controller
       'sharedUserList' => 'nullable|array'
     ]);
 
-    $query = auth()->user()->videos()->where(function ($query) use ($request) {
+    $query = auth()->user()->videos()->where('is_active',true)->where(function ($query) use ($request) {
       if ($request->search_text != null) {
         $query->where('name', 'Like', '%' . $request->search_text . '%');
       }

@@ -39,7 +39,6 @@
                 url: "{{ route('shared-videos') }}",
                 method: 'GET',
                 data: {
-                    status: $('#status').val(),
                     search_text: $('#search').val(),
                     sharedUserList: selectedValues,
                     is_ajax: true
@@ -75,14 +74,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3">
-                </div>
-                <div class="col-md-2 text-md-end">
-                    <select class="form-select searchfield" id="status" aria-label="Default select example">
-                        <option selected value="">Select Status</option>
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
-                    </select>
+                <div class="col-md-5">
                 </div>
                 <div class="col-md-2 text-md-end">
                     <input type="text" name='search' class="form-control searchfield" id="search"
