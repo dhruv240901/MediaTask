@@ -9,7 +9,7 @@ use Intervention\Image\Facades\Image;
 
 trait FileUpload
 {
-  // function to upload video
+  /* function to upload video */
   public function videoUpload($file, $video)
   {
     $this->deleteFile('user/' . auth()->id() . '/media/' . $video->id);
@@ -18,15 +18,7 @@ trait FileUpload
     return $response;
   }
 
-  public function profileImageUpload($file, $user)
-  {
-    $this->deleteFile('user/' . $user->id . '/profile');
-    $nameDate = $this->generateFileName($file, $user);
-    $this->uploadProfileImage($file, $user, $nameDate['filename']);
-    $filepath = 'user/' . $user->id . '/profile/' . $nameDate['filename'];
-    return $filepath;
-  }
-
+  /* function to create video thumbnail */
   public function videoThumbnail($video, $filename)
   {
     $ffmpeg = FFMpeg::create();
@@ -36,23 +28,7 @@ trait FileUpload
     return $frame;
   }
 
-  public function imageThumbnail($file)
-  {
-    $thumbnail = Image::make($file)->resize(200, 200, function ($constraint) {
-      $constraint->aspectRatio();
-    });
-
-    return $thumbnail;
-  }
-
-  public function deleteFile($filepath)
-  {
-    if (File::exists($filepath)) {
-      // Delete the folder and its contents
-      File::deleteDirectory($filepath);
-    }
-  }
-
+  /* function to store video and its thumbnail */
   public function uploadVideo($file, $video, $filename, $date)
   {
     // Move the original file to the user's directory
@@ -71,24 +47,38 @@ trait FileUpload
     return $response;
   }
 
-  public function uploadProfileImage($file, $user, $filename)
+  /* function to upload profile image */
+  public function profileImageUpload($file, $user)
   {
-
-    $thumbnail = $this->imageThumbnail($file);
-
-    // Move the original file to the user's directory
-    $file->move('user/' . $user->id . '/profile/', $filename);
-
-    // Create the thumbnail directory if it doesn't exist
-    $thumbnailDirectory = 'user/' . $user->id . '/profile/thumbnail/';
-    if (!file_exists($thumbnailDirectory)) {
-      mkdir($thumbnailDirectory, 0777, true);
-    }
-
-    // Save the thumbnail to the specified path
-    $thumbnail->save('user/' . $user->id . '/profile/thumbnail/' . $filename);
+    $this->deleteFile('user/' . $user->id . '/profile');
+    $nameDate = $this->generateFileName($file, $user);
+    $this->uploadProfileImage($file, $user, $nameDate['filename']);
+    $filepath = 'user/' . $user->id . '/profile/' . $nameDate['filename'];
+    return $filepath;
   }
 
+
+
+  /* function to create image thumbnail */
+  public function imageThumbnail($file)
+  {
+    $thumbnail = Image::make($file)->resize(200, 200, function ($constraint) {
+      $constraint->aspectRatio();
+    });
+
+    return $thumbnail;
+  }
+
+  /* function to delete file from directory */
+  public function deleteFile($filepath)
+  {
+    if (File::exists($filepath)) {
+      // Delete the folder and its contents
+      File::deleteDirectory($filepath);
+    }
+  }
+
+  /* function to generate file name */
   public function generateFileName($file, $module)
   {
     $name      = $file->getClientOriginalName();

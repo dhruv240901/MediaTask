@@ -7,11 +7,12 @@ use App\Models\Video;
 use App\Traits\AjaxResponse;
 use Illuminate\Http\Request;
 use App\Traits\FileUpload;
+use App\Traits\FilterTrait;
 use Illuminate\Support\Facades\File;
 
 class VideoController extends Controller
 {
-  use FileUpload, AjaxResponse;
+  use FileUpload, AjaxResponse, FilterTrait;
 
   /* Render my videos mage */
   public function myVideos(Request $request)
@@ -23,20 +24,15 @@ class VideoController extends Controller
 
     $query = Video::query();
 
-    if ($request->status != null) {
-      $query->where('is_active', $request->status);
-    }
-
     if ($request->search_text != null) {
       $query->where('name', 'Like', '%' . $request->search_text . '%');
     }
 
-    $videos = $query->where('created_by', auth()->id())->orderBy('name')->paginate(6);
+    $query = $query->where('created_by', auth()->id());
+    $videos = $this->Filter($query, $request, 6);
 
     $otherUsers = User::whereNot('id', auth()->id())->get();
 
-    // Output the JSON format
-    // dd($jsonFormat);
     if ($request->is_ajax == true) {
       return view('videos.list', compact('videos', 'otherUsers'));
     }
@@ -103,19 +99,22 @@ class VideoController extends Controller
     if ($request->sharedUserList) {
 
       // Delete Old users of requested video from the database
-      foreach ($video->users as $key => $userId) {
-        $video->users()->detach($video->users[$key]);
-      }
+      $video->users()->detach();
 
       // Add New Users of requested video in the database
       foreach ($request->sharedUserList as $key => $userId) {
         $video->users()->attach($request->sharedUserList[$key]);
       }
+    } else {
+
+      // Delete Old users of requested video from the database
+      $video->users()->detach();
     }
+
     return redirect()->route('my-videos')->with('success', 'Video Shared successfully');
   }
 
-  /* Render shared videos mage */
+  /* Render shared videos page */
   public function sharedVideos(Request $request)
   {
     $request->validate([
@@ -124,17 +123,16 @@ class VideoController extends Controller
       'sharedUserList' => 'nullable|array'
     ]);
 
-    $sharedVideos = auth()->user()->videos()->where(function ($query) use ($request) {
-      if ($request->status != null) {
-        $query->where('is_active', $request->status);
-      }
+    $query = auth()->user()->videos()->where(function ($query) use ($request) {
       if ($request->search_text != null) {
         $query->where('name', 'Like', '%' . $request->search_text . '%');
       }
-      if ($request->sharedUserList!= null) {
-        $query->whereIn('created_by',$request->sharedUserList);
+      if ($request->sharedUserList != null) {
+        $query->whereIn('created_by', $request->sharedUserList);
       }
-    })->paginate(6);
+    });
+    
+    $sharedVideos=$this->Filter($query, $request, 6);
 
     $otherUsers = User::whereNot('id', auth()->id())->get();
     if ($request->is_ajax == true) {

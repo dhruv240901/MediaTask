@@ -30,7 +30,7 @@
     <script>
         $(document).on('keyup change', '.searchfield', function() {
             $.ajax({
-                url: "{{ route('shared-videos') }}",
+                url: "{{ route('my-videos') }}",
                 method: 'GET',
                 data: {
                     status: $('#status').val(),

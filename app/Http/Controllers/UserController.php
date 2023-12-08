@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Traits\AjaxResponse;
 use App\Traits\FileUpload;
+use App\Traits\FilterTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
-  use AjaxResponse, FileUpload;
+  use AjaxResponse, FileUpload, FilterTrait;
 
   /* function to render users list table */
   public function index(Request $request)
@@ -28,28 +29,30 @@ class UserController extends Controller
       $query->where('gender', $request->gender);
     }
 
-    if ($request->status != null) {
-      $query->where('is_active', $request->status);
-    }
+    // if ($request->status != null) {
+    //   $query->where('is_active', $request->status);
+    // }
 
-    if ($request->order != null) {
-      $order = $request->order;
-    } else {
-      $order = 'ASC';
-    }
+    // if ($request->order != null) {
+    //   $order = $request->order;
+    // }
 
-    if ($request->limit != null) {
-      $perPage = $request->limit;
-    } else {
-      $perPage = 10;
-    }
+    // if ($request->limit != null) {
+    //   $perPage = $request->limit;
+    // } else {
+    //   $perPage = 10;
+    // }
 
     if ($request->search_text != null) {
       $query->where('name', 'Like', '%' . $request->search_text . '%')
         ->orWhere('email', 'Like', '%' . $request->search_text . '%')
         ->orWhere('phone', 'Like', '%' . $request->search_text . '%');
     }
-    $users = $query->whereNot('id', auth()->id())->orderBy('name', $order)->paginate($perPage);
+
+    $query = $query->whereNot('id', auth()->id());
+
+    $users = $this->Filter($query,$request,10);
+    // $users = $query->whereNot('id', auth()->id())->orderBy('name', $order)->paginate($perPage);
 
     if ($request->is_ajax == true) {
       return view('user.list', compact('users'));
