@@ -7,20 +7,30 @@ $('#editProfile').validate({
       maxlength: 10,
       minlength: 10,
       number: true
-    },
+    }
   },
   messages: {
     name: 'Please enter your name',
     phone: {
-      maxlength: 'Please enter valid phone number',
-      minlength: 'Please enter valid phone number',
+      maxlength: 'Please enter phone number less than 10 digit',
+      minlength: 'Please enter phone number more than 10 digit',
       number: 'Please enter valid phone number'
-    },
+    }
   },
   submitHandler: function (form) {
     form.submit();
   }
 });
+
+$.validator.addMethod(
+  'filesize',
+  function (value, element, param) {
+    // Get the file size in bytes
+    var fileSize = element.files[0].size;
+    return fileSize <= param;
+  },
+  'Video Size must be less than or equal to 30MB'
+);
 
 $('#addvideoform').validate({
   rules: {
@@ -30,18 +40,17 @@ $('#addvideoform').validate({
     video: {
       required: true,
       accept: 'video/*',
-      filesize: 10 * 1024 * 1024 // 10 MB
-    },
+      filesize: 30 * 1024 * 1024 // 30 MB
+    }
   },
   messages: {
     name: {
-    required:'Please enter your name',
+      required: 'Please enter your name'
     },
     video: {
       required: 'Please upload video',
-      accept: 'Only video accepted',
-      filesize: "Please upload video less than 10MB" // 10 MB
-    },
+      accept: 'Only video accepted'
+    }
   },
   submitHandler: function (form) {
     form.submit();
@@ -53,15 +62,21 @@ $('#editvideoform').validate({
     name: {
       required: true
     },
+    video: {
+      required: true,
+      accept: 'video/*',
+      filesize: 30 * 1024 * 1024 // 30 MB
+    }
   },
   messages: {
     name: {
-      required:'Please enter your name',
+      required: 'Please enter your name'
     },
+    video: {
+      accept: 'Only video accepted'
+    }
   },
   submitHandler: function (form) {
     form.submit();
   }
 });
-
-

@@ -55,7 +55,7 @@ class VideoController extends Controller
   {
     $request->validate([
       'name'      => 'required|string',
-      'video'     => 'nullable|mimes:mp4,mov,ogg',
+      'video'     => 'nullable|mimes:mp4,mov,ogg|max:300000',
       'is_active' => 'nullable|boolean'
     ]);
 
