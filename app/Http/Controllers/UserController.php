@@ -29,30 +29,15 @@ class UserController extends Controller
       $query->where('gender', $request->gender);
     }
 
-    // if ($request->status != null) {
-    //   $query->where('is_active', $request->status);
-    // }
-
-    // if ($request->order != null) {
-    //   $order = $request->order;
-    // }
-
-    // if ($request->limit != null) {
-    //   $perPage = $request->limit;
-    // } else {
-    //   $perPage = 10;
-    // }
-
     if ($request->search_text != null) {
       $query->where('name', 'Like', '%' . $request->search_text . '%')
         ->orWhere('email', 'Like', '%' . $request->search_text . '%')
         ->orWhere('phone', 'Like', '%' . $request->search_text . '%');
     }
-
+    $request['per_page'] = 10;
     $query = $query->whereNot('id', auth()->id());
 
-    $users = $this->Filter($query,$request,10);
-    // $users = $query->whereNot('id', auth()->id())->orderBy('name', $order)->paginate($perPage);
+    $users = $this->Filter($query, $request);
 
     if ($request->is_ajax == true) {
       return view('user.list', compact('users'));
@@ -89,15 +74,15 @@ class UserController extends Controller
 
     // Check if user had upload file or not
     if ($request->hasfile('profile_img')) {
-      $file = $request->file('profile_img');
+
+      $file     = $request->file('profile_img');
       $filepath = $this->profileImageUpload($file, $user);
+
       $updateData['profile_image'] = $filepath;
     } else {
+
       if (!$request->has('profile_img_url')) {
-        if (File::exists('user/' . $user->id . '/profile')) {
-          // Delete the folder and its contents
-          File::deleteDirectory('user/' . $user->id . '/profile');
-        }
+        $this->deleteFile('user/' . $user->id . '/profile');
         $updateData['profile_image'] = null;
       }
     }
@@ -106,6 +91,7 @@ class UserController extends Controller
     return redirect()->route('user-list')->with('success', 'User Updated Successfully');
   }
 
+  /* function to update user status */
   public function updateStatus(Request $request)
   {
     // Validate Update User Status Request
@@ -123,9 +109,7 @@ class UserController extends Controller
   public function destroy($id)
   {
     User::findOrFail($id)->delete();
-    if (file_exists('user/' . $id)) {
-      unlink('user/' . $id);
-    }
+    $this->deleteFile('user/' . $id);
     return redirect()->route('user-list')->with('success', 'user deleted successfully');
   }
 

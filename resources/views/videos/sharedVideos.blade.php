@@ -24,11 +24,6 @@
     <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
     <script>
         $(document).on('keyup change', '.searchfield', function() {
-            // var selectedUsers = [];
-            // // Display the selected values (you can use them as needed)
-            // selectedUsers.push($("select[name='sharedUserList[]']").find(':selected'))
-            // console.log(selectedUsers);
-
             var selectedValues = [];
 
             // Iterate through each select box
@@ -58,7 +53,6 @@
 @endsection
 
 @section('content')
-    <h4 class="py-3 mb-4"><span class="text-muted fw-light">UI Elements /</span> Cards Basic</h4>
     <div class="card mb-4">
         <div class="card-body">
             <div class="row g-3">
@@ -66,7 +60,7 @@
                     <div class="position-relative">
                         <select id="selectpickerLiveSearch selectpickerSelectDeselect sharedUserList"
                             name="sharedUserList[]" class="selectpicker w-100 searchfield" data-style="btn-default"
-                            data-live-search="true" multiple data-actions-box="false" data-size="5">
+                            data-live-search="true" multiple data-actions-box="false" data-size="5" placeholder="Select User">
                             @foreach ($otherUsers as $user)
                                 @if ($user->profile_image == '')
                                     <option value="{{ $user->id }}"

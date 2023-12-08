@@ -25,8 +25,13 @@
                 </div>
                 <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                     <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                      @if(Auth::user()->profile_image !=null)
                         <img src="{{ asset(auth()->user()->profile_image) }}" alt="user image"
                             class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                      @else
+                        <img src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&size=41&background=43ACF0&color=FFFFFF" alt="user image"
+                        class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                      @endif
                     </div>
                     <div class="flex-grow-1 mt-3 mt-sm-5">
                         <div

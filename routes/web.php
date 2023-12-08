@@ -64,4 +64,4 @@ Route::middleware('auth')->group(function () {
 
   });
 });
-Route::get('shareUserList', [VideoController::class, 'shareUserList'])->name('share-user-list');
+

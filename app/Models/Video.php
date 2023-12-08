@@ -15,4 +15,10 @@ class Video extends BaseModel
     {
       return $this->belongsToMany(User::class,'shared_videos');
     }
+
+    /* add relationship between users and videos table */
+    public function user()
+    {
+      return $this->belongsTo(User::class,'created_by');
+    }
 }

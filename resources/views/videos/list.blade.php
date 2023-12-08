@@ -17,6 +17,19 @@
                 </form>
                 <a href="javascript:void(0)" class="btn btn-outline-info" data-bs-toggle="modal"
                     data-bs-target="#shareVideo{{ $video->id }}"><i class='bx bxs-share-alt'></i></a>
+                <div class="avatar-group d-flex align-items-center assigned-avatar mt-2">
+                  @foreach ($video->users as $user)
+                  @if ($user->profile_image)
+                    <div class="avatar avatar-xs" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="{{  $user->name }}"
+                        data-bs-original-title="{{ $user->name }}"><img src="{{ asset($user->profile_image) }}"
+                            alt="Avatar" class="rounded-circle  pull-up"></div>
+                  @else
+                    <div class="avatar avatar-xs" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="{{  $user->name }}"
+                        data-bs-original-title="{{  $user->name }}"><img src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&size=30&background=696cff&color=FFFFFF'
+                            alt="Avatar" class="rounded-circle  pull-up"></div>
+                  @endif
+                  @endforeach
+                </div>
             </div>
         </div>
     </div>
@@ -38,42 +51,46 @@
     </div>
 
     <div class="modal fade" id="shareVideo{{ $video->id }}" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title" id="modalCenterTitle">Share To</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                  <form action="{{ route('share-video') }}" method="POST" class="shareuserform" data-id="{{ $video->id }}" id="shareuserform{{ $video->id }}">
-                      @csrf
-                      <input type="hidden" value="{{ $video->id }}" name="videoId">
-                      <div class="col-md-12 mb-4">
-                          <div class="position-relative">
-                              <select id="selectpickerLiveSearch selectpickerSelectDeselect"
-                                          name="sharedUserList[]" class="selectpicker w-100" data-style="btn-default"
-                                          data-live-search="true" multiple data-actions-box="false" data-size="5">
-                                          @foreach ($otherUsers as $user)
-                                              @if ($user->profile_image == '')
-                                                  <option {{ in_array($video->id, $user->videos->pluck('id')->toArray()) ? 'selected' : '' }} value="{{ $user->id }}"
-                                                      data-content="<img src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&size=30&background=696cff&color=FFFFFF' class='avatar-initial rounded-circle'>&nbsp;{{ $user->name }}">
-                                                      {{ $user->name }}</option>
-                                              @else
-                                                  <option {{ in_array($video->id, $user->videos->pluck('id')->toArray()) ? 'selected' : '' }} value="{{ $user->id }}"
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCenterTitle">Share To</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('share-video') }}" method="POST" class="shareuserform"
+                        data-id="{{ $video->id }}" id="shareuserform{{ $video->id }}">
+                        @csrf
+                        <input type="hidden" value="{{ $video->id }}" name="videoId">
+                        <div class="col-md-12 mb-4">
+                            <div class="position-relative">
+                                <select id="selectpickerLiveSearch selectpickerSelectDeselect" name="sharedUserList[]"
+                                    class="selectpicker w-100" data-style="btn-default" data-live-search="true" multiple
+                                    data-actions-box="false" data-size="5" placeholder="Select User">
+                                    @foreach ($otherUsers as $user)
+                                        @if ($user->profile_image == '')
+                                            <option
+                                                {{ in_array($video->id, $user->videos->pluck('id')->toArray()) ? 'selected' : '' }}
+                                                value="{{ $user->id }}"
+                                                data-content="<img src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&size=30&background=696cff&color=FFFFFF' class='avatar-initial rounded-circle'>&nbsp;{{ $user->name }}">
+                                                {{ $user->name }}</option>
+                                        @else
+                                            <option
+                                                {{ in_array($video->id, $user->videos->pluck('id')->toArray()) ? 'selected' : '' }}
+                                                value="{{ $user->id }}"
+                                                data-content="<img src='{{ asset($user->profile_image) }}' class='rounded-circle' width='30' height='30'>&nbsp;{{ $user->name }}">
+                                                {{ $user->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
 
-                                                      data-content="<img src='{{ asset($user->profile_image) }}' class='rounded-circle' width='30' height='30'>&nbsp;{{ $user->name }}">
-                                                      {{ $user->name }}</option>
-                                              @endif
-                                          @endforeach
-                                      </select>
-                          </div>
-                      </div>
-
-                      <button type="submit" class="btn btn-primary">Share</button>
-                  </form>
-              </div>
-          </div>
-      </div>
-  </div>
+                        <button type="submit" class="btn btn-primary">Share</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endforeach
 {!! $videos->links() !!}

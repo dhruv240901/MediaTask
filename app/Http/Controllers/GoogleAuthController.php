@@ -21,10 +21,10 @@ class GoogleAuthController extends Controller
       $user = Socialite::driver('google')->stateless()->user();
 
       // Check if user with requested mail id exist or not
-      $checkUser = User::where('email', $user->email)->first();
+      $authUser = User::where('email', $user->email)->first();
 
       // If user not exist then store the data in the datatabase
-      if ($checkUser == null) {
+      if ($authUser == null) {
         $authUser =  User::create([
           'name'          => $user->name,
           'email'         => $user->email,
@@ -43,17 +43,14 @@ class GoogleAuthController extends Controller
         // }
 
         // Check if user account is active or not
-        if($checkUser->is_active==false)
-        {
-          return redirect()->route('login')->with('error','Your account is deactivated');
+        if ($authUser->is_active == false) {
+          return redirect()->route('login')->with('error', 'Your account is deactivated');
         }
-
-        $authUser = $checkUser;
       }
 
       // authenticate user using id
       Auth::LoginUsingId($authUser->id);
-      return redirect()->route('index')->with('success','Login Successfully');
+      return redirect()->route('index')->with('success', 'Login Successfully');
     } catch (\Throwable $th) {
       throw $th;
     }

@@ -28,16 +28,15 @@ class VideoController extends Controller
       $query->where('name', 'Like', '%' . $request->search_text . '%');
     }
 
+    $request['per_page'] = 6;
     $query = $query->where('created_by', auth()->id());
-    $videos = $this->Filter($query, $request, 6);
+    $videos = $this->Filter($query, $request);
 
     $otherUsers = User::whereNot('id', auth()->id())->get();
 
     if ($request->is_ajax == true) {
       return view('videos.list', compact('videos', 'otherUsers'));
     }
-
-
     return view('videos.table', compact('videos', 'otherUsers'));
   }
 
@@ -80,10 +79,7 @@ class VideoController extends Controller
   public function destroy($id)
   {
     Video::findOrFail($id)->delete();
-    if (File::exists('user/' . auth()->id() . '/media/' . $id)) {
-      // Delete the folder and its contents
-      File::deleteDirectory('user/' . auth()->id() . '/media/' . $id);
-    }
+    $this->deleteFile('user/' . auth()->id() . '/media/' . $id);
     return redirect()->route('my-videos')->with('success', 'Video deleted successfully');
   }
 
@@ -131,8 +127,8 @@ class VideoController extends Controller
         $query->whereIn('created_by', $request->sharedUserList);
       }
     });
-    
-    $sharedVideos=$this->Filter($query, $request, 6);
+    $request['per_page'] = 6;
+    $sharedVideos = $this->Filter($query, $request);
 
     $otherUsers = User::whereNot('id', auth()->id())->get();
     if ($request->is_ajax == true) {
@@ -140,12 +136,5 @@ class VideoController extends Controller
     }
 
     return view('videos.sharedVideos', compact('sharedVideos', 'otherUsers'));
-  }
-
-  public function shareUserList()
-  {
-    $users = User::whereNot('id', auth()->id())->get();
-    $response = $this->success(200, "Status Updated Successfully", $users);
-    return $response;
   }
 }

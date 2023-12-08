@@ -12,9 +12,10 @@ class LoginController extends Controller
     return view('auth.login');
   }
 
+  /* function to logout user */
   public function logout()
   {
     auth()->logout();
-    return redirect()->route('login');
+    return redirect()->route('login')->with('success','Logout Successfully');
   }
 }

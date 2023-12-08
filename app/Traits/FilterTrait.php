@@ -5,20 +5,21 @@ namespace app\Traits;
 trait FilterTrait
 {
   /* function to check status, order by column and pagination */
-  public function Filter($query, $request, $perPage, $column = 'name', $order = 'ASC')
+  public function Filter($query, $request, $column = 'name', $order = 'ASC')
   {
-    if ($request->status != null) {
+    if ($request->status!=null) {
       $query->where('is_active', $request->status);
     }
 
-    if ($request->order != null) {
+    if ($request->order) {
       $order = $request->order;
     }
     $query->orderBy($column, $order);
 
-
-    if ($request->limit != null) {
+    if ($request->limit) {
       $perPage = $request->limit;
+    } else {
+      $perPage = $request->per_page;
     }
 
     return $query->paginate($perPage);

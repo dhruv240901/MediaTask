@@ -7,6 +7,19 @@
                 alt="Card image cap" /></a>
         <div class="card-body">
             <h5 class="card-title">{{ $video->name }}</h5>
+            <p>Shared By: </p>
+            <div class="avatar-group d-flex align-items-center assigned-avatar mt-2">
+
+                @if ($video->user->profile_image!=null)
+                  <div class="avatar avatar-xs" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="{{ $video->user->name }}"
+                      data-bs-original-title="{{ $video->user->name }}"><img src="{{ asset($video->user->profile_image)}}"
+                          alt="Avatar" class="rounded-circle  pull-up"></div>
+                @else
+                  <div class="avatar avatar-xs" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="{{ $video->user->name }}"
+                      data-bs-original-title="{{ $video->user->name }}"><img src='https://ui-avatars.com/api/?name={{ urlencode($video->user->name) }}&size=30&background=696cff&color=FFFFFF'
+                          alt="Avatar" class="rounded-circle  pull-up"></div>
+                @endif
+            </div>
         </div>
     </div>
 </div>

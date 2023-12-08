@@ -21,3 +21,47 @@ $('#editProfile').validate({
     form.submit();
   }
 });
+
+$('#addvideoform').validate({
+  rules: {
+    name: {
+      required: true
+    },
+    video: {
+      required: true,
+      accept: 'video/*',
+      filesize: 10 * 1024 * 1024 // 10 MB
+    },
+  },
+  messages: {
+    name: {
+    required:'Please enter your name',
+    },
+    video: {
+      required: 'Please upload video',
+      accept: 'Only video accepted',
+      filesize: "Please upload video less than 10MB" // 10 MB
+    },
+  },
+  submitHandler: function (form) {
+    form.submit();
+  }
+});
+
+$('#editvideoform').validate({
+  rules: {
+    name: {
+      required: true
+    },
+  },
+  messages: {
+    name: {
+      required:'Please enter your name',
+    },
+  },
+  submitHandler: function (form) {
+    form.submit();
+  }
+});
+
+

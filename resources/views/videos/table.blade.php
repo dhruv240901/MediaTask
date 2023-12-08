@@ -42,6 +42,7 @@
                 }
             })
         });
+         // TODO: Update user name and profile image if user has updated in google account
         // $(document).on('submit', '.shareuserform', function (e) {
         //   e.preventDefault()
         //   var currentForm = $(this);

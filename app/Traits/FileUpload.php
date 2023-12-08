@@ -57,8 +57,6 @@ trait FileUpload
     return $filepath;
   }
 
-
-
   /* function to create image thumbnail */
   public function imageThumbnail($file)
   {
