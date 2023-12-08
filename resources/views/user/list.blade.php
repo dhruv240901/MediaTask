@@ -67,4 +67,6 @@ aria-describedby="DataTables_Table_0_info" style="width: 1387px;">
 @endforeach
 </tbody>
 </table>
+<div class="d-flex justify-content-center">
 {!! $users->links() !!}
+<div>
