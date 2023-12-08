@@ -28,6 +28,7 @@
     <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
     <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
     <script>
+      $(document).ready(function(){
         $(document).on('keyup change', '.searchfield', function() {
             $.ajax({
                 url: "{{ route('my-videos') }}",
@@ -42,10 +43,9 @@
                 }
             })
         });
-         // TODO: Update user name and profile image if user has updated in google account
-        // $(document).on('submit', '.shareuserform', function (e) {
-        //   e.preventDefault()
-        //   var currentForm = $(this);
+        // TODO: Update user name and profile image if user has updated in google account
+        // $(document).on('submit', '.shareuserform', function(e) {
+        //     e.preventDefault()
         //     Swal.fire({
         //         title: "Are you sure?",
         //         text: "You won't to share this video!",
@@ -56,10 +56,12 @@
         //         confirmButtonText: "Yes, share it!"
         //     }).then((result) => {
         //         if (result.isConfirmed) {
-        //             currentForm.unbind('submit').submit();
+        //             var currentForm = $(this).attr('id');
+        //             $('#' + currentForm).unbind('submit').submit();
         //         }
         //     });
         // });
+      });
     </script>
 @endsection
 

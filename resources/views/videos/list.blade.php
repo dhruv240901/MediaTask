@@ -18,17 +18,19 @@
                 <a href="javascript:void(0)" class="btn btn-outline-info" data-bs-toggle="modal"
                     data-bs-target="#shareVideo{{ $video->id }}"><i class='bx bxs-share-alt'></i></a>
                 <div class="avatar-group d-flex align-items-center assigned-avatar mt-2">
-                  @foreach ($video->users as $user)
-                  @if ($user->profile_image)
-                    <div class="avatar avatar-xs" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="{{  $user->name }}"
-                        data-bs-original-title="{{ $user->name }}"><img src="{{ asset($user->profile_image) }}"
-                            alt="Avatar" class="rounded-circle  pull-up"></div>
-                  @else
-                    <div class="avatar avatar-xs" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="{{  $user->name }}"
-                        data-bs-original-title="{{  $user->name }}"><img src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&size=30&background=696cff&color=FFFFFF'
-                            alt="Avatar" class="rounded-circle  pull-up"></div>
-                  @endif
-                  @endforeach
+                    @foreach ($video->users as $user)
+                        @if ($user->profile_image)
+                            <div class="avatar avatar-xs" data-bs-toggle="tooltip" data-bs-placement="top"
+                                aria-label="{{ $user->name }}" data-bs-original-title="{{ $user->name }}"><img
+                                    src="{{ asset($user->profile_image) }}" alt="Avatar"
+                                    class="rounded-circle  pull-up"></div>
+                        @else
+                            <div class="avatar avatar-xs" data-bs-toggle="tooltip" data-bs-placement="top"
+                                aria-label="{{ $user->name }}" data-bs-original-title="{{ $user->name }}"><img
+                                    src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&size=30&background=696cff&color=FFFFFF'
+                                    alt="Avatar" class="rounded-circle  pull-up"></div>
+                        @endif
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -42,7 +44,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex">
-                    <video width="700" height="240" controls>
+                    <video id="Video" width="700" height="240" controls>
                         <source src="{{ asset($video->file_url) }}" type="video/mp4">
                     </video>
                 </div>
@@ -86,7 +88,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Share</button>
+                        <button type="submit" class="btn btn-primary sharebtn">Share</button>
                     </form>
                 </div>
             </div>
