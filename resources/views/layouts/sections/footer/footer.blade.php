@@ -1,4 +1,4 @@
-@php
+{{-- @php
 $containerFooter = ($configData['contentLayout'] === 'compact') ? 'container-xxl' : 'container-fluid';
 @endphp
 
@@ -17,4 +17,4 @@ $containerFooter = ($configData['contentLayout'] === 'compact') ? 'container-xxl
     </div>
   </div>
 </footer>
-<!--/ Footer-->
+<!--/ Footer--> --}}
