@@ -132,9 +132,9 @@
                                 <div class="collapse">
                                     <div class="card-body pt-0">
                                         @foreach ($video->comments as $comment)
-                                        <input type="hidden" value="" name="commentId" class="commentId">
-                                      </form>
-                                            <div class="d-flex">
+                                            <input type="hidden" value="" name="commentId" class="commentId">
+                                            </form>
+                                            <div class="d-flex" id="commenthtml{{ $comment->id }}">
                                                 @if ($comment->user->profile_image == null)
                                                     <div class="avatar avatar-xs" data-bs-toggle="tooltip"
                                                         data-bs-placement="top"
@@ -150,11 +150,17 @@
                                                             src="{{ asset($comment->user->profile_image) }}"
                                                             alt="Avatar" class="rounded-circle  pull-up"></div>
                                                 @endif
-                                                <p class="mx-2" id="comment{{ $comment->id }}">{{ $comment->name }}<sup
+                                                <p class="mx-2" id="comment{{ $comment->id }}">
+                                                    {{ $comment->name }}<sup
                                                         class="mx-2">({{ $comment->created_at->diffForHumans() }})</sup>
                                                 </p>
                                                 @if ($comment->user_id == auth()->id())
-                                                    <div class="editbtn" data-id="{{ $comment->id }}"><i class="bx bxs-edit"></i></div>
+                                                    <div class="editbtn" data-id="{{ $comment->id }}"><i
+                                                            class="bx bxs-edit"></i></div>
+                                                @endif
+                                                @if ($video->created_by == auth()->id())
+                                                    <div class="deletebtn" data-id="{{ $comment->id }}"><i
+                                                            class="bx bxs-trash"></i></div>
                                                 @endif
                                             </div>
                                         @endforeach

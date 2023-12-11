@@ -159,4 +159,14 @@ class VideoController extends Controller
     return redirect()->back()->with('success', 'Comment added successfully');
   }
 
+  /* function to delete comment */
+  public function deleteComment(Request $request)
+  {
+    $request->validate([
+      'commentId' => 'required|exists:comments,id'
+    ]);
+
+    Comment::findOrFail($request->commentId)->delete();
+    return $this->success(200,'Comment Deleted Successfully');
+  }
 }

@@ -31,6 +31,10 @@
         .editbtn {
             cursor: pointer;
         }
+
+        .deletebtn {
+            cursor: pointer;
+        }
     </style>
 @endsection
 @section('page-script')
@@ -75,20 +79,54 @@
             //         }
             //     });
             // });
-            $(document).on('click','.comment-btn',function(){
-              $('.form-text').val('')
-              $('.sharebtn').html('Add Comment')
-              $('.commentId').val('');
+            $(document).on('click', '.comment-btn', function() {
+                $('.form-text').val('')
+                $('.sharebtn').html('Add Comment')
+                $('.commentId').val('');
             })
 
             $(document).on('click', '.editbtn', function() {
                 let comment = $(this).attr('data-id');
                 $('.commentId').val(comment);
-                var commentName = $("#comment"+comment).contents().filter(function() {
+                var commentName = $("#comment" + comment).contents().filter(function() {
                     return this.nodeType === 3; // Filter out text nodes
                 }).text().trim();
                 $('.form-text').val(commentName);
                 $('.sharebtn').html('Edit Comment')
+            });
+
+            $(document).on('click', '.deletebtn', function() {
+                let comment = $(this).attr('data-id');
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't to delete this comment!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, share it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('delete-comment') }}",
+                            method: 'POST',
+                            data: {
+                                '_token': "{{ csrf_token() }}",
+                                'commentId': comment
+                            },
+                            success: function(data) {
+                                $('#commenthtml' + comment).remove()
+                                Swal.fire({
+                                    title: "Deleted!",
+                                    text: data.message,
+                                    icon: "success",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                            }
+                        })
+                    }
+                });
             });
         });
     </script>
