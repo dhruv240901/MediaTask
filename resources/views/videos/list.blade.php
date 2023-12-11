@@ -17,6 +17,8 @@
                 </form>
                 <a href="javascript:void(0)" class="btn btn-outline-info" data-bs-toggle="modal"
                     data-bs-target="#shareVideo{{ $video->id }}"><i class='bx bxs-share-alt'></i></a>
+                <a href="javascript:void(0)" class="btn btn-secondary float-end" data-bs-toggle="modal"
+                    data-bs-target="#comment{{ $video->id }}"><i class='bx bxs-message-rounded-dots'></i></a>
                 <div class="avatar-group d-flex align-items-center assigned-avatar mt-2">
                     @foreach ($video->users as $user)
                         @if ($user->profile_image)
@@ -90,6 +92,49 @@
 
                         <button type="submit" class="btn btn-primary sharebtn">Share</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="comment{{ $video->id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCenterTitle">{{ $video->name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12 mb-4">
+                        <form action="{{ route('store-comments') }}" method="POST">
+                            @csrf
+                            <input type="hidden" value="{{ $video->id }}" name="videoId">
+                            <label for="defaultFormControlInput" class="form-label">Enter comment</label>
+                            <input type="text" class="form-control" id="defaultFormControlInput"
+                                aria-describedby="defaultFormControlHelp" name="comment">
+                            <button type="submit" class="btn btn-primary sharebtn mt-2">Add Comment</button>
+                        </form>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="card card-action mb-4">
+                        <div class="card-header">
+                          <div class="card-action-title">Show Comments</div>
+                          <div class="card-action-element">
+                            <ul class="list-inline mb-0">
+                              <li class="list-inline-item">
+                                <a href="javascript:void(0);" class="card-collapsible"><i class="tf-icons bx bx-chevron-up"></i></a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="collapse show">
+                          <div class="card-body pt-0">
+                            <p class="card-text">To create a collapsible card, use <code>.card-collapsible</code> class with action item. To show the collapsible content default use <code>.show</code> class with <code>.collapse</code>.</p>
+                            <p class="card-text">Click on <i class="tf-icons bx bx-chevron-up"></i> to see card collapse in action.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                 </div>
             </div>
         </div>

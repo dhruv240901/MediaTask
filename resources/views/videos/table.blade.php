@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/spinkit/spinkit.css') }}" />
 @endsection
 
 @section('vendor-script')
@@ -19,6 +20,8 @@
     <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/bloodhound/bloodhound.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/block-ui/block-ui.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/sortablejs/sortable.js') }}"></script>
 @endsection
 
 @section('page-script')
@@ -28,40 +31,40 @@
     <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
     <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
     <script>
-      $(document).ready(function(){
-        $(document).on('keyup change', '.searchfield', function() {
-            $.ajax({
-                url: "{{ route('my-videos') }}",
-                method: 'GET',
-                data: {
-                    status: $('#status').val(),
-                    search_text: $('#search').val(),
-                    is_ajax: true
-                },
-                success: function(data) {
-                    $('.videodetails').html(data)
-                }
-            })
+        $(document).ready(function() {
+            $(document).on('keyup change', '.searchfield', function() {
+                $.ajax({
+                    url: "{{ route('my-videos') }}",
+                    method: 'GET',
+                    data: {
+                        status: $('#status').val(),
+                        search_text: $('#search').val(),
+                        is_ajax: true
+                    },
+                    success: function(data) {
+                        $('.videodetails').html(data)
+                    }
+                })
+            });
+            // TODO: Update user name and profile image if user has updated in google account
+            // $(document).on('submit', '.shareuserform', function(e) {
+            //     e.preventDefault()
+            //     Swal.fire({
+            //         title: "Are you sure?",
+            //         text: "You won't to share this video!",
+            //         icon: "warning",
+            //         showCancelButton: true,
+            //         confirmButtonColor: "#3085d6",
+            //         cancelButtonColor: "#d33",
+            //         confirmButtonText: "Yes, share it!"
+            //     }).then((result) => {
+            //         if (result.isConfirmed) {
+            //             var currentForm = $(this).attr('id');
+            //             $('#' + currentForm).unbind('submit').submit();
+            //         }
+            //     });
+            // });
         });
-        // TODO: Update user name and profile image if user has updated in google account
-        // $(document).on('submit', '.shareuserform', function(e) {
-        //     e.preventDefault()
-        //     Swal.fire({
-        //         title: "Are you sure?",
-        //         text: "You won't to share this video!",
-        //         icon: "warning",
-        //         showCancelButton: true,
-        //         confirmButtonColor: "#3085d6",
-        //         cancelButtonColor: "#d33",
-        //         confirmButtonText: "Yes, share it!"
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             var currentForm = $(this).attr('id');
-        //             $('#' + currentForm).unbind('submit').submit();
-        //         }
-        //     });
-        // });
-      });
     </script>
 @endsection
 

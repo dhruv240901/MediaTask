@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\User;
 use App\Models\Video;
 use App\Traits\AjaxResponse;
@@ -136,5 +137,21 @@ class VideoController extends Controller
     }
 
     return view('videos.sharedVideos', compact('sharedVideos', 'otherUsers'));
+  }
+
+  public function storeComment(Request $request)
+  {
+    $request->validate([
+      'videoId' => 'required|exists:videos,id',
+      'comment' => 'required|string'
+    ]);
+
+    Comment::create([
+      'name'     => $request->comment,
+      'video_id' => $request->videoId,
+      'user_id'  => auth()->id()
+    ]);
+
+    return redirect()->route('my-videos')->with('success', 'Comment added successfully');
   }
 }
