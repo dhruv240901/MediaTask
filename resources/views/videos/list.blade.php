@@ -116,24 +116,45 @@
                         </form>
                     </div>
                     <div class="col-md-12">
-                      <div class="card card-action mb-4">
-                        <div class="card-header">
-                          <div class="card-action-title">Show Comments</div>
-                          <div class="card-action-element">
-                            <ul class="list-inline mb-0">
-                              <li class="list-inline-item">
-                                <a href="javascript:void(0);" class="card-collapsible"><i class="tf-icons bx bx-chevron-up"></i></a>
-                              </li>
-                            </ul>
-                          </div>
+                        <div class="col-md">
+                            <div class="card card-action mb-4">
+                                <div class="card-header collapsed">
+                                    <div class="card-action-title">Show Comments</div>
+                                    <div class="card-action-element">
+                                        <ul class="list-inline mb-0">
+                                            <li class="list-inline-item">
+                                                <a href="javascript:void(0);" class="card-collapsible"><i
+                                                        class="tf-icons bx bx-chevron-up"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="collapse">
+                                    <div class="card-body pt-0">
+                                        @foreach ($video->comments as $comment)
+                                            <div class="d-flex">
+                                                @if ($comment->user->profile_image == null)
+                                                    <div class="avatar avatar-xs" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        aria-label="{{ $comment->user->name }}"
+                                                        data-bs-original-title="{{ $comment->user->name }}"><img
+                                                            src="https://ui-avatars.com/api/?name={{ urlencode($comment->user->name) }}&size=30&background=696cff&color=FFFFFF"
+                                                            alt="Avatar" class="rounded-circle  pull-up"></div>
+                                                @else
+                                                    <div class="avatar avatar-xs" data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        aria-label="{{ $comment->user->name }}"
+                                                        data-bs-original-title="{{ $comment->user->name }}"><img
+                                                            src="{{ asset($comment->user->profile_image) }}"
+                                                            alt="Avatar" class="rounded-circle  pull-up"></div>
+                                                @endif
+                                                <p class="mx-2">{{ $comment->name }}<sup class="mx-2">({{ $comment->created_at->diffForHumans() }})</sup></p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="collapse show">
-                          <div class="card-body pt-0">
-                            <p class="card-text">To create a collapsible card, use <code>.card-collapsible</code> class with action item. To show the collapsible content default use <code>.show</code> class with <code>.collapse</code>.</p>
-                            <p class="card-text">Click on <i class="tf-icons bx bx-chevron-up"></i> to see card collapse in action.</p>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                 </div>
             </div>

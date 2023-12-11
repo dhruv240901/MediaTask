@@ -21,4 +21,10 @@ class Video extends BaseModel
     {
       return $this->belongsTo(User::class,'created_by');
     }
+
+    /* add relationship between videos and comments table */
+    public function comments()
+    {
+      return $this->hasMany(Comment::class);
+    }
 }

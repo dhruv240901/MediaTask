@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/tagify/tagify.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/spinkit/spinkit.css') }}" />
 @endsection
 
 @section('vendor-script')
@@ -16,12 +17,15 @@
     <script src="{{ asset('assets/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/typeahead-js/typeahead.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/bloodhound/bloodhound.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/block-ui/block-ui.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/sortablejs/sortable.js') }}"></script>
 @endsection
 
 @section('page-script')
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
     <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
     <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
+    <script src="{{asset('assets/js/cards-actions.js')}}"></script>
     <script>
         $(document).on('keyup change', '.searchfield', function() {
             var selectedValues = [];

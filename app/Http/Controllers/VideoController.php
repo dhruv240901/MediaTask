@@ -139,6 +139,7 @@ class VideoController extends Controller
     return view('videos.sharedVideos', compact('sharedVideos', 'otherUsers'));
   }
 
+  /* function to store comment in database */
   public function storeComment(Request $request)
   {
     $request->validate([
@@ -152,6 +153,6 @@ class VideoController extends Controller
       'user_id'  => auth()->id()
     ]);
 
-    return redirect()->route('my-videos')->with('success', 'Comment added successfully');
+    return redirect()->back()->with('success', 'Comment added successfully');
   }
 }
