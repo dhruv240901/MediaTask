@@ -156,7 +156,8 @@ class VideoController extends Controller
       'user_id'  => auth()->id()
     ]);
 
-    return redirect()->back()->with('success', 'Comment added successfully');
+    $video=Video::findOrFail($request->videoId);
+    return view('videos.commentsList',compact('video'));
   }
 
   /* function to delete comment */

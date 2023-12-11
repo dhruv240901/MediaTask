@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::get('shared', [VideoController::class, 'sharedVideos'])->name('shared-videos');
     Route::prefix('comment')->group(function () {
       Route::post('store', [VideoController::class, 'storeUpdateComment'])->name('store-comments');
-      Route::post('delete-comment',[VideoController::class, 'deleteComment'])->name('delete-comment');
+      Route::post('delete',[VideoController::class, 'deleteComment'])->name('delete-comment');
     });
   });
 });

@@ -81,9 +81,28 @@
             // });
             $(document).on('click', '.comment-btn', function() {
                 $('.form-text').val('')
-                $('.sharebtn').html('Add Comment')
+                $('.commentbtn').html('Add Comment')
                 $('.commentId').val('');
             })
+
+            $(document).on('click', '.commentbtn', function() {
+                $.ajax({
+                    url: "{{ route('store-comments') }}",
+                    method: 'POST',
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                        'videoId': $('.videoId').val(),
+                        'comment': $('.form-text').val(),
+                        'commentId': $('.commentId').val()
+                    },
+                    success: function(data) {
+                        $('.comment-list').html(data)
+                        $('.form-text').val('')
+                        $('.commentbtn').html('Add Comment')
+                        $('.commentId').val('');
+                    }
+                })
+            });
 
             $(document).on('click', '.editbtn', function() {
                 let comment = $(this).attr('data-id');
@@ -92,7 +111,7 @@
                     return this.nodeType === 3; // Filter out text nodes
                 }).text().trim();
                 $('.form-text').val(commentName);
-                $('.sharebtn').html('Edit Comment')
+                $('.commentbtn').html('Edit Comment')
             });
 
             $(document).on('click', '.deletebtn', function() {
