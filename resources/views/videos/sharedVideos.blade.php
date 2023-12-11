@@ -25,7 +25,7 @@
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
     <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
     <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
-    <script src="{{asset('assets/js/cards-actions.js')}}"></script>
+    <script src="{{ asset('assets/js/cards-actions.js') }}"></script>
     <script>
         $(document).on('keyup change', '.searchfield', function() {
             var selectedValues = [];
@@ -52,6 +52,22 @@
                 }
             })
         });
+
+        $(document).on('click', '.comment-btn', function() {
+            $('.form-text').val('')
+            $('.sharebtn').html('Add Comment')
+            $('.commentId').val('');
+        })
+
+        $(document).on('click', '.editbtn', function() {
+            let comment = $(this).attr('data-id');
+            $('.commentId').val(comment);
+            var commentName = $("#comment" + comment).contents().filter(function() {
+                return this.nodeType === 3; // Filter out text nodes
+            }).text().trim();
+            $('.form-text').val(commentName);
+            $('.sharebtn').html('Edit Comment')
+        });
     </script>
 @endsection
 
@@ -63,7 +79,8 @@
                     <div class="position-relative">
                         <select id="selectpickerLiveSearch selectpickerSelectDeselect sharedUserList"
                             name="sharedUserList[]" class="selectpicker w-100 searchfield" data-style="btn-default"
-                            data-live-search="true" multiple data-actions-box="false" data-size="5" placeholder="Select User">
+                            data-live-search="true" multiple data-actions-box="false" data-size="5"
+                            placeholder="Select User">
                             @foreach ($otherUsers as $user)
                                 @if ($user->profile_image == '')
                                     <option value="{{ $user->id }}"

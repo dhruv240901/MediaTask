@@ -139,15 +139,18 @@ class VideoController extends Controller
     return view('videos.sharedVideos', compact('sharedVideos', 'otherUsers'));
   }
 
-  /* function to store comment in database */
-  public function storeComment(Request $request)
+  /* function to store or update comment in database */
+  public function storeUpdateComment(Request $request)
   {
     $request->validate([
-      'videoId' => 'required|exists:videos,id',
-      'comment' => 'required|string'
+      'videoId'   => 'required|exists:videos,id',
+      'comment'   => 'required|string',
+      'commentId' => 'nullable|exists:comments,id'
     ]);
 
-    Comment::create([
+    Comment::updateOrCreate([
+      'id' => $request->commentId
+    ],[
       'name'     => $request->comment,
       'video_id' => $request->videoId,
       'user_id'  => auth()->id()
@@ -155,4 +158,5 @@ class VideoController extends Controller
 
     return redirect()->back()->with('success', 'Comment added successfully');
   }
+
 }

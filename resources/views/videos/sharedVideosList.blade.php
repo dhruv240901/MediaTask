@@ -9,7 +9,7 @@
                 <div>
                     <h5 class="card-title">{{ $video->name }}</h5>
                     <a href="javascript:void(0)" class="btn btn-secondary float-end" data-bs-toggle="modal"
-                    data-bs-target="#comment{{ $video->id }}"><i class='bx bxs-message-rounded-dots'></i></a>
+                        data-bs-target="#comment{{ $video->id }}"><i class='bx bxs-message-rounded-dots'></i></a>
                 </div>
                 <p>Shared By: </p>
                 <div class="avatar-group d-flex align-items-center assigned-avatar mt-2">
@@ -59,10 +59,10 @@
                             @csrf
                             <input type="hidden" value="{{ $video->id }}" name="videoId">
                             <label for="defaultFormControlInput" class="form-label">Enter comment</label>
-                            <input type="text" class="form-control" id="defaultFormControlInput"
+                            <input type="text" class="form-control form-text" id="defaultFormControlInput"
                                 aria-describedby="defaultFormControlHelp" name="comment">
                             <button type="submit" class="btn btn-primary sharebtn mt-2">Add Comment</button>
-                        </form>
+
                     </div>
                     <div class="col-md-12">
                         <div class="col-md">
@@ -81,10 +81,13 @@
                                 <div class="collapse">
                                     <div class="card-body pt-0">
                                         @foreach ($video->comments as $comment)
+                                            <input type="hidden" value="" name="commentId" class="commentId">
+                                          </form>
                                             <div class="d-flex">
                                                 @if ($comment->user->profile_image == null)
                                                     <div class="avatar avatar-xs" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" aria-label="{{ $comment->user->name }}"
+                                                        data-bs-placement="top"
+                                                        aria-label="{{ $comment->user->name }}"
                                                         data-bs-original-title="{{ $comment->user->name }}"><img
                                                             src="https://ui-avatars.com/api/?name={{ urlencode($comment->user->name) }}&size=30&background=696cff&color=FFFFFF"
                                                             alt="Avatar" class="rounded-circle  pull-up"></div>
@@ -96,7 +99,13 @@
                                                             src="{{ asset($comment->user->profile_image) }}"
                                                             alt="Avatar" class="rounded-circle  pull-up"></div>
                                                 @endif
-                                                <p class="mx-2">{{ $comment->name }}</p>
+                                                <p class="mx-2" id="comment{{ $comment->id }}">
+                                                    {{ $comment->name }}<sup
+                                                        class="mx-2">({{ $comment->created_at->diffForHumans() }})</sup>
+                                                </p>
+                                                @if ($comment->user_id == auth()->id())
+                                                    <div class="editbtn" data-id="{{ $comment->id }}"><i class="bx bxs-edit"></i></div>
+                                                @endif
                                             </div>
                                         @endforeach
                                     </div>

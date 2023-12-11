@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::post('shareVideo', [VideoController::class, 'shareVideo'])->name('share-video');
     Route::get('shared', [VideoController::class, 'sharedVideos'])->name('shared-videos');
     Route::prefix('comment')->group(function () {
-      Route::post('store', [VideoController::class, 'storeComment'])->name('store-comments');
+      Route::post('store', [VideoController::class, 'storeUpdateComment'])->name('store-comments');
     });
   });
 });

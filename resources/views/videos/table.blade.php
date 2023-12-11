@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/animate-css/animate.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/spinkit/spinkit.css') }}" />
-    <link rel="stylesheet" href="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
 @endsection
 
 @section('vendor-script')
@@ -23,17 +23,24 @@
     <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/block-ui/block-ui.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/sortablejs/sortable.js') }}"></script>
-    <script src="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 @endsection
 
+@section('page-style')
+    <style>
+        .editbtn {
+            cursor: pointer;
+        }
+    </style>
+@endsection
 @section('page-script')
     @include('components.toastr')
     <script src="{{ asset('assets/js/forms-selects.js') }}"></script>
     <script src="{{ asset('assets/js/forms-tagify.js') }}"></script>
     <script src="{{ asset('assets/js/forms-typeahead.js') }}"></script>
     <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
-    <script src="{{asset('assets/js/cards-actions.js')}}"></script>
-    <script src="{{asset('assets/js/extended-ui-perfect-scrollbar.js')}}"></script>
+    <script src="{{ asset('assets/js/cards-actions.js') }}"></script>
+    <script src="{{ asset('assets/js/extended-ui-perfect-scrollbar.js') }}"></script>
     <script>
         $(document).ready(function() {
             $(document).on('keyup change', '.searchfield', function() {
@@ -68,6 +75,21 @@
             //         }
             //     });
             // });
+            $(document).on('click','.comment-btn',function(){
+              $('.form-text').val('')
+              $('.sharebtn').html('Add Comment')
+              $('.commentId').val('');
+            })
+
+            $(document).on('click', '.editbtn', function() {
+                let comment = $(this).attr('data-id');
+                $('.commentId').val(comment);
+                var commentName = $("#comment"+comment).contents().filter(function() {
+                    return this.nodeType === 3; // Filter out text nodes
+                }).text().trim();
+                $('.form-text').val(commentName);
+                $('.sharebtn').html('Edit Comment')
+            });
         });
     </script>
 @endsection
