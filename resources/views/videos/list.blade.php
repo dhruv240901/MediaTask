@@ -28,9 +28,17 @@
                                     class="rounded-circle  pull-up"></div>
                         @else
                             <div class="avatar avatar-xs" data-bs-toggle="tooltip" data-bs-placement="top"
-                                aria-label="{{ $user->name }}" data-bs-original-title="{{ $user->name }}"><img
-                                    src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&size=30&background=696cff&color=FFFFFF'
-                                    alt="Avatar" class="rounded-circle  pull-up"></div>
+                                aria-label="{{ $user->name }}" data-bs-original-title="{{ $user->name }}">
+                                <span class="avatar-initial rounded-circle bg-primary">
+                                    @php
+                                        $words = explode(' ', $user->name);
+                                        $firstLetterFirstWord = strtoupper(substr(current($words), 0, 1));
+                                        $firstLetterLastWord = strtoupper(substr(end($words), 0, 1));
+                                        $result = $firstLetterFirstWord . $firstLetterLastWord;
+                                    @endphp
+                                    {{ $result }}
+                                </span>
+                            </div>
                         @endif
                     @endforeach
                 </div>
@@ -73,10 +81,16 @@
                                     data-actions-box="false" data-size="5" placeholder="Select User">
                                     @foreach ($otherUsers as $user)
                                         @if ($user->profile_image == '')
+                                            @php
+                                                $words = explode(' ', $user->name);
+                                                $firstLetterFirstWord = strtoupper(substr(current($words), 0, 1));
+                                                $firstLetterLastWord = strtoupper(substr(end($words), 0, 1));
+                                                $result = $firstLetterFirstWord . $firstLetterLastWord;
+                                            @endphp
                                             <option
                                                 {{ in_array($video->id, $user->videos->pluck('id')->toArray()) ? 'selected' : '' }}
                                                 value="{{ $user->id }}"
-                                                data-content="<img src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&size=30&background=696cff&color=FFFFFF' class='avatar-initial rounded-circle'>&nbsp;{{ $user->name }}">
+                                                data-content="<span class='avatar-initial text-white p-1 rounded-circle bg-primary'>{{ $result }}</span>&nbsp;{{ $user->name }}">
                                                 {{ $user->name }}</option>
                                         @else
                                             <option
@@ -113,7 +127,8 @@
                         <label for="defaultFormControlInput" class="form-label">Enter comment</label>
                         <input type="text" class="form-control form-text" id="form-text{{ $video->id }}"
                             aria-describedby="defaultFormControlHelp" name="comment">
-                        <button type="button" class="btn btn-primary commentbtn mt-2" data-id="{{$video->id}}">Add Comment</button>
+                        <button type="button" class="btn btn-primary commentbtn mt-2"
+                            data-id="{{ $video->id }}">Add Comment</button>
 
                     </div>
                     <div class="col-md-12">

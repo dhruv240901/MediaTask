@@ -80,8 +80,15 @@
                         @if (Auth::user()->profile_image)
                             <img src="{{ asset(Auth::user()->profile_image) }}" alt class="w-px-40 h-auto rounded-circle">
                         @else
-                            <img src='https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&size=30&background=696cff&color=FFFFFF'
-                                alt class="w-px-40 h-auto rounded-circle">
+                            <span class="avatar-initial rounded-circle bg-primary">
+                                @php
+                                    $words = explode(' ', auth()->user()->name);
+                                    $firstLetterFirstWord = strtoupper(substr(current($words), 0, 1));
+                                    $firstLetterLastWord = strtoupper(substr(end($words), 0, 1));
+                                    $result = $firstLetterFirstWord . $firstLetterLastWord;
+                                @endphp
+                                {{ $result }}
+                            </span>
                         @endif
                     </div>
                 </a>
@@ -96,8 +103,15 @@
                                             <img src="{{ asset(Auth::user()->profile_image) }}" alt
                                                 class="w-px-40 h-auto rounded-circle">
                                         @else
-                                            <img src='https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&size=30&background=696cff&color=FFFFFF'
-                                                alt class="w-px-40 h-auto rounded-circle">
+                                            <span class="avatar-initial rounded-circle bg-primary">
+                                                @php
+                                                    $words = explode(' ', auth()->user()->name);
+                                                    $firstLetterFirstWord = strtoupper(substr(current($words), 0, 1));
+                                                    $firstLetterLastWord = strtoupper(substr(end($words), 0, 1));
+                                                    $result = $firstLetterFirstWord . $firstLetterLastWord;
+                                                @endphp
+                                                {{ $result }}
+                                            </span>
                                         @endif
                                     </div>
                                 </div>

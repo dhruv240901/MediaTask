@@ -113,8 +113,14 @@
                             placeholder="Select User">
                             @foreach ($otherUsers as $user)
                                 @if ($user->profile_image == '')
+                                    @php
+                                        $words = explode(' ', $user->name);
+                                        $firstLetterFirstWord = strtoupper(substr(current($words), 0, 1));
+                                        $firstLetterLastWord = strtoupper(substr(end($words), 0, 1));
+                                        $result = $firstLetterFirstWord . $firstLetterLastWord;
+                                    @endphp
                                     <option value="{{ $user->id }}"
-                                        data-content="<img src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&size=30&background=696cff&color=FFFFFF' class='avatar-initial rounded-circle'>&nbsp;{{ $user->name }}">
+                                        data-content="<span class='avatar-initial text-white p-1 rounded-circle bg-primary'>{{ $result }}</span>&nbsp;{{ $user->name }}">
                                         {{ $user->name }}</option>
                                 @else
                                     <option value="{{ $user->id }}"

@@ -21,9 +21,17 @@
                                 class="rounded-circle  pull-up"></div>
                     @else
                         <div class="avatar avatar-xs" data-bs-toggle="tooltip" data-bs-placement="top"
-                            aria-label="{{ $video->user->name }}" data-bs-original-title="{{ $video->user->name }}"><img
-                                src='https://ui-avatars.com/api/?name={{ urlencode($video->user->name) }}&size=30&background=696cff&color=FFFFFF'
-                                alt="Avatar" class="rounded-circle  pull-up"></div>
+                            aria-label="{{ $video->user->name }}" data-bs-original-title="{{ $video->user->name }}">
+                            <span class="avatar-initial rounded-circle bg-primary">
+                              @php
+                                  $words = explode(' ', $video->user->name);
+                                  $firstLetterFirstWord = strtoupper(substr(current($words), 0, 1));
+                                  $firstLetterLastWord = strtoupper(substr(end($words), 0, 1));
+                                  $result = $firstLetterFirstWord . $firstLetterLastWord;
+                              @endphp
+                              {{ $result }}
+                          </span>
+                        </div>
                     @endif
                 </div>
             </div>
