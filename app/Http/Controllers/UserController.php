@@ -1,13 +1,14 @@
 <?php
 
+
 namespace App\Http\Controllers;
+
 
 use App\Models\User;
 use App\Traits\AjaxResponse;
 use App\Traits\FileUpload;
 use App\Traits\FilterTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 
 class UserController extends Controller
 {
@@ -17,17 +18,20 @@ class UserController extends Controller
   public function index(Request $request)
   {
     $request->validate([
-      'gender'      => 'nullable|string',
-      'status'      => 'nullable|string',
-      'limit'       => 'nullable|string',
+      'gender'      => 'nullable|in:male,female',
+      'status'      => 'nullable|boolean',
+      'limit'       => 'nullable|numeric',
       'search_text' => 'nullable|string'
     ]);
 
-    $query = User::query();
+
+    $query = User::whereNot('id', auth()->id())->getQuery();
+
 
     if ($request->gender != null) {
       $query->where('gender', $request->gender);
     }
+
 
     if ($request->search_text != null) {
       $query->where('name', 'Like', '%' . $request->search_text . '%')
@@ -35,15 +39,15 @@ class UserController extends Controller
         ->orWhere('phone', 'Like', '%' . $request->search_text . '%');
     }
     $request['per_page'] = 10;
-    $query = $query->whereNot('id', auth()->id());
-
     $users = $this->Filter($query, $request);
 
+
     if ($request->is_ajax == true) {
-      return view('user.list', compact('users'));
+      return view('components.userTable', compact('users'));
     }
-    return view('user.table', compact('users'));
+    return view('user.list', compact('users'));
   }
+
 
   /* function to render edit user form */
   public function edit($id)
@@ -51,6 +55,7 @@ class UserController extends Controller
     $user = User::findOrFail($id);
     return view('user.edit', compact('user'));
   }
+
 
   /* function to update user details in database */
   public function update(Request $request, $id)
@@ -63,6 +68,7 @@ class UserController extends Controller
       'profile_img' => 'nullable|image'
     ]);
 
+
     // Update Data into the database
     $updateData = [
       'name'        => $request->name,
@@ -70,16 +76,21 @@ class UserController extends Controller
       'gender'      => $request->gender,
     ];
 
+
     $user = User::findOrFail($id);
+
 
     // Check if user had upload file or not
     if ($request->hasfile('profile_img')) {
 
+
       $file     = $request->file('profile_img');
       $filepath = $this->profileImageUpload($file, $user);
 
+
       $updateData['profile_image'] = $filepath;
     } else {
+
 
       if (!$request->has('profile_img_url')) {
         $this->deleteFile('user/' . $user->id . '/profile');
@@ -87,31 +98,38 @@ class UserController extends Controller
       }
     }
 
+
     $user->update($updateData);
     return redirect()->route('user-list')->with('success', 'User Updated Successfully');
   }
+
 
   /* function to update user status */
   public function updateStatus(Request $request)
   {
     // Validate Update User Status Request
     $request->validate([
+      'id'      => 'required|exists:users',
       'checked' => 'required'
     ]);
-    $user = User::findOrFail($request->id);
 
-    $request->checked == "false" ? $user->update(['is_active' => false]) : $user->update(['is_active' => true]);
+
+    User::findOrFail($request->id)->update(['is_active' => filter_var($request->checked, FILTER_VALIDATE_BOOLEAN)]);
+
+
     $response = $this->success(200, "Status Updated Successfully");
     return $response;
   }
 
+
   /* function to delete user by id */
   public function destroy($id)
   {
-    User::findOrFail($id)->delete();
     $this->deleteFile('user/' . $id);
+    User::findOrFail($id)->delete();
     return redirect()->route('user-list')->with('success', 'user deleted successfully');
   }
+
 
   /* Render user profile page */
   public function profile()
