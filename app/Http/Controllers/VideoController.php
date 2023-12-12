@@ -9,7 +9,6 @@ use App\Traits\AjaxResponse;
 use Illuminate\Http\Request;
 use App\Traits\FileUpload;
 use App\Traits\FilterTrait;
-use Illuminate\Support\Facades\File;
 
 class VideoController extends Controller
 {
@@ -102,7 +101,6 @@ class VideoController extends Controller
 
       // Add New Users of requested video in the database
       $video->users()->attach($request->sharedUserList);
-
     } else {
 
       // Delete Old users of requested video from the database
@@ -149,14 +147,25 @@ class VideoController extends Controller
       'commentId' => 'nullable|exists:comments,id'
     ]);
 
-    Comment::updateOrCreate([
-      'id' => $request->commentId
-    ], [
-      'name'     => $request->comment,
-      'video_id' => $request->videoId,
-      'user_id'  => auth()->id()
-    ]);
+    $comment = Comment::whereId($request->commentId)->first();
 
+    if ($comment) {
+      if ($comment->user_id == auth()->id()) {
+        $comment->update([
+          'name'     => $request->comment,
+          'video_id' => $request->videoId,
+          'user_id'  => auth()->id()
+        ]);
+      } else {
+        return $this->error(403, 'Unauthorized');
+      }
+    } else {
+      Comment::create([
+        'name'     => $request->comment,
+        'video_id' => $request->videoId,
+        'user_id'  => auth()->id()
+      ]);
+    }
     $video = Video::findOrFail($request->videoId);
     return view('components.commentsList', compact('video'));
   }
@@ -168,7 +177,13 @@ class VideoController extends Controller
       'commentId' => 'required|exists:comments,id'
     ]);
 
-    Comment::findOrFail($request->commentId)->delete();
+    $comment = Comment::findOrFail($request->commentId);
+    if (auth()->id() == $comment->video->created_by) {
+      $comment->delete();
+    } else {
+      return $this->error(403, 'Unauthorized');
+    }
+
     return $this->success(200, 'Comment Deleted Successfully');
   }
 }

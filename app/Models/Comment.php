@@ -16,4 +16,10 @@ class Comment extends BaseModel
     {
       return $this->belongsTo(User::class);
     }
+
+     /* add relationship between comments and videos table */
+     public function video()
+     {
+       return $this->belongsTo(Video::class);
+     }
 }
