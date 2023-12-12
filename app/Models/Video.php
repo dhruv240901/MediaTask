@@ -25,6 +25,6 @@ class Video extends BaseModel
     /* add relationship between videos and comments table */
     public function comments()
     {
-      return $this->hasMany(Comment::class);
+      return $this->hasMany(Comment::class)->orderBy('created_at', 'DESC');
     }
 }

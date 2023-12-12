@@ -86,17 +86,18 @@
             })
 
             $(document).on('click', '.commentbtn', function() {
+                let video_id=$(this).attr('data-id')
                 $.ajax({
                     url: "{{ route('store-comments') }}",
                     method: 'POST',
                     data: {
                         '_token': "{{ csrf_token() }}",
-                        'videoId': $('.videoId').val(),
-                        'comment': $('.form-text').val(),
+                        'videoId':video_id,
+                        'comment': $('#form-text'+video_id).val(),
                         'commentId': $('.commentId').val()
                     },
                     success: function(data) {
-                        $('.comment-list').html(data)
+                        $('#comment-list'+video_id).html(data)
                         $('.form-text').val('')
                         $('.commentbtn').html('Add Comment')
                         $('.commentId').val('');

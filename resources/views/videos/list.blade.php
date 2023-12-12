@@ -111,9 +111,9 @@
                     <div class="col-md-12 mb-4">
                         <input type="hidden" value="{{ $video->id }}" name="videoId" class="videoId">
                         <label for="defaultFormControlInput" class="form-label">Enter comment</label>
-                        <input type="text" class="form-control form-text" id="defaultFormControlInput"
+                        <input type="text" class="form-control" id="form-text{{ $video->id }}"
                             aria-describedby="defaultFormControlHelp" name="comment">
-                        <button type="button" class="btn btn-primary commentbtn mt-2">Add Comment</button>
+                        <button type="button" class="btn btn-primary commentbtn mt-2" data-id="{{$video->id}}">Add Comment</button>
 
                     </div>
                     <div class="col-md-12">
@@ -131,7 +131,7 @@
                                     </div>
                                 </div>
                                 <div class="collapse">
-                                    <div class="card-body pt-0 comment-list">
+                                    <div class="card-body pt-0" id="comment-list{{ $video->id }}">
                                         @include('videos.commentsList')
                                     </div>
                                 </div>
