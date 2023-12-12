@@ -47,21 +47,24 @@
     </div>
 
     <div class="modal fade" id="comment{{ $video->id }}" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalCenterTitle">{{ $video->name }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <video id="Video" width="510" height="240" controls>
+                        <source src="{{ asset($video->file_url) }}" type="video/mp4">
+                    </video>
                     <div class="col-md-12 mb-4">
-                        <form action="{{ route('store-comments') }}" method="POST">
-                            @csrf
-                            <input type="hidden" value="{{ $video->id }}" name="videoId">
-                            <label for="defaultFormControlInput" class="form-label">Enter comment</label>
-                            <input type="text" class="form-control form-text" id="defaultFormControlInput"
-                                aria-describedby="defaultFormControlHelp" name="comment">
-                            <button type="submit" class="btn btn-primary sharebtn mt-2">Add Comment</button>
+
+                        <input type="hidden" value="{{ $video->id }}" name="videoId">
+                        <label for="defaultFormControlInput" class="form-label">Enter comment</label>
+                        <input type="text" class="form-control form-text" id="form-text{{ $video->id }}"
+                            aria-describedby="defaultFormControlHelp" name="comment">
+                        <button type="button" class="btn btn-primary commentbtn mt-2"
+                            data-id="{{ $video->id }}">Add Comment</button>
 
                     </div>
                     <div class="col-md-12">
@@ -79,35 +82,8 @@
                                     </div>
                                 </div>
                                 <div class="collapse">
-                                    <div class="card-body pt-0">
-                                        @foreach ($video->comments as $comment)
-                                            <input type="hidden" value="" name="commentId" class="commentId">
-                                          </form>
-                                            <div class="d-flex">
-                                                @if ($comment->user->profile_image == null)
-                                                    <div class="avatar avatar-xs" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top"
-                                                        aria-label="{{ $comment->user->name }}"
-                                                        data-bs-original-title="{{ $comment->user->name }}"><img
-                                                            src="https://ui-avatars.com/api/?name={{ urlencode($comment->user->name) }}&size=30&background=696cff&color=FFFFFF"
-                                                            alt="Avatar" class="rounded-circle  pull-up"></div>
-                                                @else
-                                                    <div class="avatar avatar-xs" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top"
-                                                        aria-label="{{ $comment->user->name }}"
-                                                        data-bs-original-title="{{ $comment->user->name }}"><img
-                                                            src="{{ asset($comment->user->profile_image) }}"
-                                                            alt="Avatar" class="rounded-circle  pull-up"></div>
-                                                @endif
-                                                <p class="mx-2" id="comment{{ $comment->id }}">
-                                                    {{ $comment->name }}<sup
-                                                        class="mx-2">({{ $comment->created_at->diffForHumans() }})</sup>
-                                                </p>
-                                                @if ($comment->user_id == auth()->id())
-                                                    <div class="editbtn" data-id="{{ $comment->id }}"><i class="bx bxs-edit"></i></div>
-                                                @endif
-                                            </div>
-                                        @endforeach
+                                    <div class="card-body pt-0" id="comment-list{{ $video->id }}">
+                                        @include('videos.commentsList')
                                     </div>
                                 </div>
                             </div>

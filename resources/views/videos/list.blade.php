@@ -98,7 +98,7 @@
     </div>
 
     <div class="modal fade" id="comment{{ $video->id }}" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalCenterTitle">{{ $video->name }}</h5>
@@ -111,7 +111,7 @@
                     <div class="col-md-12 mb-4">
                         <input type="hidden" value="{{ $video->id }}" name="videoId" class="videoId">
                         <label for="defaultFormControlInput" class="form-label">Enter comment</label>
-                        <input type="text" class="form-control" id="form-text{{ $video->id }}"
+                        <input type="text" class="form-control form-text" id="form-text{{ $video->id }}"
                             aria-describedby="defaultFormControlHelp" name="comment">
                         <button type="button" class="btn btn-primary commentbtn mt-2" data-id="{{$video->id}}">Add Comment</button>
 

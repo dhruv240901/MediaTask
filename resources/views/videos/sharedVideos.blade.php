@@ -9,7 +9,17 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/typeahead-js/typeahead.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/spinkit/spinkit.css') }}" />
 @endsection
+@section('page-style')
+    <style>
+        .editbtn {
+            cursor: pointer;
+        }
 
+        .deletebtn {
+            cursor: pointer;
+        }
+    </style>
+@endsection
 @section('vendor-script')
     <script src="{{ asset('assets/vendor/libs/masonry/masonry.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/select2/select2.js') }}"></script>
@@ -53,6 +63,26 @@
             })
         });
 
+        $(document).on('click', '.commentbtn', function() {
+            let video_id = $(this).attr('data-id')
+            $.ajax({
+                url: "{{ route('store-comments') }}",
+                method: 'POST',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'videoId': video_id,
+                    'comment': $('#form-text' + video_id).val(),
+                    'commentId': $('.commentId').val()
+                },
+                success: function(data) {
+                    $('#comment-list' + video_id).html(data)
+                    $('#form-text' + video_id).val('')
+                    $('.commentbtn').html('Add Comment')
+                    $('.commentId').val('');
+                }
+            })
+        });
+
         $(document).on('click', '.comment-btn', function() {
             $('.form-text').val('')
             $('.sharebtn').html('Add Comment')
@@ -66,7 +96,7 @@
                 return this.nodeType === 3; // Filter out text nodes
             }).text().trim();
             $('.form-text').val(commentName);
-            $('.sharebtn').html('Edit Comment')
+            $('.commentbtn').html('Edit Comment')
         });
     </script>
 @endsection

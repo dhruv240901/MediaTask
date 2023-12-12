@@ -98,7 +98,7 @@
                     },
                     success: function(data) {
                         $('#comment-list'+video_id).html(data)
-                        $('.form-text').val('')
+                        $('#form-text'+video_id).val('')
                         $('.commentbtn').html('Add Comment')
                         $('.commentId').val('');
                     }
@@ -124,7 +124,7 @@
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, share it!"
+                    confirmButtonText: "Yes, delete it!"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
