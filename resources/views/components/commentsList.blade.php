@@ -6,7 +6,7 @@
                 aria-label="{{ $comment->user->name }}" data-bs-original-title="{{ $comment->user->name }}">
                 <span class="avatar-initial rounded-circle bg-primary">
                     @php
-                        $words = explode(' ', $user->name);
+                        $words = explode(' ', $comment->user->name);
                         $firstLetterFirstWord = strtoupper(substr(current($words), 0, 1));
                         $firstLetterLastWord = strtoupper(substr(end($words), 0, 1));
                         $result = $firstLetterFirstWord . $firstLetterLastWord;

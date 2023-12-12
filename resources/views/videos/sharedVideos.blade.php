@@ -145,6 +145,6 @@
     </div>
     <!-- Examples -->
     <div class="row mb-5 sharedVideosList">
-        @include('videos.sharedVideosList')
+        @include('components.sharedVideosList')
     </div>
 @endsection

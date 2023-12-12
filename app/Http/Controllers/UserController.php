@@ -25,8 +25,7 @@ class UserController extends Controller
     ]);
 
 
-    $query = User::whereNot('id', auth()->id())->getQuery();
-
+    $query = User::whereNot('id', auth()->id());
 
     if ($request->gender != null) {
       $query->where('gender', $request->gender);

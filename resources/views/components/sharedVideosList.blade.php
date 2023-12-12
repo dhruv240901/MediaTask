@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="collapse">
                                     <div class="card-body pt-0" id="comment-list{{ $video->id }}">
-                                        @include('videos.commentsList')
+                                        @include('components.commentsList')
                                     </div>
                                 </div>
                             </div>

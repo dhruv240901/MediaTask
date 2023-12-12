@@ -23,22 +23,21 @@ class VideoController extends Controller
       'status'      => 'nullable|boolean',
     ]);
 
-    $query = Video::query();
+    $query = Video::where('created_by', auth()->id());
 
     if ($request->search_text != null) {
       $query->where('name', 'Like', '%' . $request->search_text . '%');
     }
 
     $request['per_page'] = 6;
-    $query = $query->where('created_by', auth()->id());
     $videos = $this->Filter($query, $request);
 
     $otherUsers = User::whereNot('id', auth()->id())->get();
 
     if ($request->is_ajax == true) {
-      return view('videos.list', compact('videos', 'otherUsers'));
+      return view('components.videoList', compact('videos', 'otherUsers'));
     }
-    return view('videos.table', compact('videos', 'otherUsers'));
+    return view('videos.list', compact('videos', 'otherUsers'));
   }
 
   /* function to render add and edit video form */
@@ -91,7 +90,7 @@ class VideoController extends Controller
   public function shareVideo(Request $request)
   {
     $request->validate([
-      'videoId'        => 'required|string',
+      'videoId'        => 'required|string|exists:video,id',
       'sharedUserList' => 'nullable|array',
     ]);
 
@@ -102,9 +101,8 @@ class VideoController extends Controller
       $video->users()->detach();
 
       // Add New Users of requested video in the database
-      foreach ($request->sharedUserList as $key => $userId) {
-        $video->users()->attach($request->sharedUserList[$key]);
-      }
+      $video->users()->attach($request->sharedUserList);
+
     } else {
 
       // Delete Old users of requested video from the database
@@ -136,7 +134,7 @@ class VideoController extends Controller
 
     $otherUsers = User::whereNot('id', auth()->id())->get();
     if ($request->is_ajax == true) {
-      return view('videos.sharedVideosList', compact('sharedVideos', 'otherUsers'));
+      return view('components.sharedVideosList', compact('sharedVideos', 'otherUsers'));
     }
 
     return view('videos.sharedVideos', compact('sharedVideos', 'otherUsers'));
@@ -160,7 +158,7 @@ class VideoController extends Controller
     ]);
 
     $video = Video::findOrFail($request->videoId);
-    return view('videos.commentsList', compact('video'));
+    return view('components.commentsList', compact('video'));
   }
 
   /* function to delete comment */
