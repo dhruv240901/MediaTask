@@ -35,6 +35,7 @@
                             @method('PUT')
                         @endif
                         @csrf
+                        <input type="hidden" value="{{ isset($video) && $video != null ? 'edit' : 'add' }}" name="action">
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Name</label>
                             <input type="text" class="form-control" id="exampleFormControlInput1" name="name"

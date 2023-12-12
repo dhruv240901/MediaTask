@@ -54,9 +54,12 @@ class VideoController extends Controller
   /* function to store and update video in database */
   public function storeUpdate(Request $request, $id = null)
   {
+    ini_set('upload_max_filesize', '30M');
+    ini_set('post_max_size', '30M');
+
     $request->validate([
       'name'      => 'required|string',
-      'video'     => 'nullable|mimes:mp4,mov,ogg|max:300000',
+      'video'     => 'required_if:id,null|mimes:mp4,mov,ogg|max:300000',
       'is_active' => 'nullable|boolean'
     ]);
 
@@ -120,7 +123,7 @@ class VideoController extends Controller
       'sharedUserList' => 'nullable|array'
     ]);
 
-    $query = auth()->user()->videos()->where('is_active',true)->where(function ($query) use ($request) {
+    $query = auth()->user()->videos()->where('is_active', true)->where(function ($query) use ($request) {
       if ($request->search_text != null) {
         $query->where('name', 'Like', '%' . $request->search_text . '%');
       }
@@ -150,14 +153,14 @@ class VideoController extends Controller
 
     Comment::updateOrCreate([
       'id' => $request->commentId
-    ],[
+    ], [
       'name'     => $request->comment,
       'video_id' => $request->videoId,
       'user_id'  => auth()->id()
     ]);
 
-    $video=Video::findOrFail($request->videoId);
-    return view('videos.commentsList',compact('video'));
+    $video = Video::findOrFail($request->videoId);
+    return view('videos.commentsList', compact('video'));
   }
 
   /* function to delete comment */
@@ -168,6 +171,6 @@ class VideoController extends Controller
     ]);
 
     Comment::findOrFail($request->commentId)->delete();
-    return $this->success(200,'Comment Deleted Successfully');
+    return $this->success(200, 'Comment Deleted Successfully');
   }
 }

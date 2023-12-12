@@ -63,7 +63,6 @@ $('#editvideoform').validate({
       required: true
     },
     video: {
-      required: true,
       accept: 'video/*',
       filesize: 30 * 1024 * 1024 // 30 MB
     }
