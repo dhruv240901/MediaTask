@@ -25,6 +25,11 @@ $('#editProfile').validate({
 $.validator.addMethod(
   'filesize',
   function (value, element, param) {
+    // Check if the file input is empty
+    if (element.files.length === 0) {
+      return true; // Skip validation if no file is selected
+    }
+    
     // Get the file size in bytes
     var fileSize = element.files[0].size;
     return fileSize <= param;
