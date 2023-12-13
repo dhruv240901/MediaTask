@@ -61,24 +61,40 @@
                     }
                 })
             });
-            // TODO: Update user name and profile image if user has updated in google account
-            // $(document).on('submit', '.shareuserform', function(e) {
-            //     e.preventDefault()
-            //     Swal.fire({
-            //         title: "Are you sure?",
-            //         text: "You won't to share this video!",
-            //         icon: "warning",
-            //         showCancelButton: true,
-            //         confirmButtonColor: "#3085d6",
-            //         cancelButtonColor: "#d33",
-            //         confirmButtonText: "Yes, share it!"
-            //     }).then((result) => {
-            //         if (result.isConfirmed) {
-            //             var currentForm = $(this).attr('id');
-            //             $('#' + currentForm).unbind('submit').submit();
-            //         }
-            //     });
-            // });
+            $('.deleteform').submit(function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't to delete this video!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var dataid = $(this).attr('data-id');
+                        $('#deleteform' + dataid).unbind('submit').submit();
+                    }
+                });
+            });
+
+            $('.sharebtn').click(function() {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't to share this video!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, share it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#shareuserform' + dataid).submit();
+                    }
+                });
+            });
+
             $(document).on('click', '.comment-btn', function() {
                 $('.form-text').val('')
                 $('.commentbtn').html('Add Comment')

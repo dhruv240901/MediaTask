@@ -65,8 +65,8 @@
                     <div class="d-inline-block text-nowrap">
                         <a href="{{ route('user-edit', $user->id) }}" type="button" class="btn btn-info"><i
                                 class="bx bxs-edit"></i></a>
-                        <form action="{{ route('user-delete', $user->id) }}" method="POST" class="softdeleteform"
-                            data-id="{{ $user->id }}" id="softdeleteform{{ $user->id }}"
+                        <form action="{{ route('user-delete', $user->id) }}" method="POST" class="deleteform"
+                            data-id="{{ $user->id }}" id="deleteform{{ $user->id }}"
                             style="display: inline">
                             @csrf
                             @method('DELETE')

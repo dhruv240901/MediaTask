@@ -9,7 +9,7 @@
                 <h5 class="card-title">{{ $video->name }}</h5>
                 <a href="{{ route('edit-video', $video->id) }}" class="btn btn-outline-primary"><i
                         class="bx bxs-edit"></i></a>
-                <form action="{{ route('delete-video', $video->id) }}" method="POST" class="softdeleteform"
+                <form action="{{ route('delete-video', $video->id) }}" method="POST" class="deleteform" data-id="{{ $video->id }}" id="deleteform{{ $video->id }}"
                     style="display: inline">
                     @csrf
                     @method('DELETE')
@@ -71,7 +71,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('share-video') }}" method="POST" class="shareuserform"
-                        data-id="{{ $video->id }}" id="shareuserform{{ $video->id }}">
+                       id="shareuserform{{ $video->id }}">
                         @csrf
                         <input type="hidden" value="{{ $video->id }}" name="videoId">
                         <div class="col-md-12 mb-4">
@@ -104,7 +104,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary sharebtn">Share</button>
+                        <button type="button" class="btn btn-primary sharebtn"  data-id="{{ $video->id }}" >Share</button>
                     </form>
                 </div>
             </div>

@@ -63,7 +63,7 @@ class UserController extends Controller
     $request->validate([
       'name'        => 'required|string',
       'phone'       => 'nullable|min:10|max:10',
-      'gender'      => 'nullable|string',
+      'gender'      => 'nullable|in:male,female',
       'profile_img' => 'nullable|image'
     ]);
 
@@ -97,7 +97,6 @@ class UserController extends Controller
       }
     }
 
-
     $user->update($updateData);
     return redirect()->route('user-list')->with('success', 'User Updated Successfully');
   }
@@ -114,8 +113,6 @@ class UserController extends Controller
 
 
     User::findOrFail($request->id)->update(['is_active' => filter_var($request->checked, FILTER_VALIDATE_BOOLEAN)]);
-
-
     $response = $this->success(200, "Status Updated Successfully");
     return $response;
   }

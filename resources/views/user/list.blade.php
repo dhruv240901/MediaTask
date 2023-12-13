@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/select2/select2.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/@form-validation/umd/styles/index.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/toastr/toastr.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.css') }}" />
 @endsection
 
 @section('vendor-script')
@@ -21,6 +22,7 @@
     <script src="{{ asset('assets/vendor/libs/cleavejs/cleave.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/cleavejs/cleave-phone.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/toastr/toastr.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 @endsection
 
 @section('page-script')
@@ -69,6 +71,24 @@
                     },
                 });
             });
+
+            $('.deleteform').submit(function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't to delete this user!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        var dataid = $(this).attr('data-id');
+                        $('#deleteform' + dataid).unbind('submit').submit();
+                    }
+                });
+            });
         });
     </script>
 @endsection
@@ -110,16 +130,16 @@
                 <div class="col-md-1">
                 </div>
                 <div class="col-md-2">
-                  <div
-                      class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
-                      <div id="DataTables_Table_0_filter" class="dataTables_filter"><label><input type="search"
-                                  class="form-control searchfield" placeholder="Search.."
-                                  aria-controls="DataTables_Table_0" id="search_input"></label></div>
-                  </div>
-              </div>
-              <div class="col-md-1 text-md-end">
-                <a href="{{ route('user-list') }}" class="btn btn-danger">Cancel</a>
-              </div>
+                    <div
+                        class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
+                        <div id="DataTables_Table_0_filter" class="dataTables_filter"><label><input type="search"
+                                    class="form-control searchfield" placeholder="Search.."
+                                    aria-controls="DataTables_Table_0" id="search_input"></label></div>
+                    </div>
+                </div>
+                <div class="col-md-1 text-md-end">
+                    <a href="{{ route('user-list') }}" class="btn btn-danger">Cancel</a>
+                </div>
             </div>
         </div>
         <div class="card-datatable table-responsive">

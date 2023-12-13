@@ -80,8 +80,8 @@ class VideoController extends Controller
   /* function to delete video */
   public function destroy($id)
   {
-    Video::findOrFail($id)->delete();
     $this->deleteFile('user/' . auth()->id() . '/media/' . $id);
+    Video::findOrFail($id)->delete();
     return redirect()->route('my-videos')->with('success', 'Video deleted successfully');
   }
 
@@ -89,7 +89,7 @@ class VideoController extends Controller
   public function shareVideo(Request $request)
   {
     $request->validate([
-      'videoId'        => 'required|string|exists:video,id',
+      'videoId'        => 'required|string|exists:videos,id',
       'sharedUserList' => 'nullable|array',
     ]);
 
